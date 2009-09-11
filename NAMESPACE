@@ -1,0 +1,52 @@
+importFrom("graphics", "plot") ## we need the generic for plot
+#import("Matrix")
+importFrom("Matrix", "image", "t", "rowSums", "colSums", "crossprod")
+#import("arules")
+importFrom("arules", "predict", "nitems", "sample", "LIST", 
+    "dissimilarity", "sort", "summary")
+
+## registry uses S3
+export("recommenderRegistry")
+S3method("print", "recommender_method")
+
+## recommenderlab exports
+exportClasses(
+		"ratingMatrix",
+		"realRatingMatrix",
+		"binaryRatingMatrix",
+		"Recommender",
+		"topNList",
+		"evaluationScheme",
+		"confusionMatrix",
+		"evaluationResults",
+		"evaluationResultList"
+		)
+
+exportMethods(
+		"[",
+		"coerce",	## setAs
+		"show",
+		"plot",
+		"image",
+		"sample",
+		"predict",
+		"colMeans",
+		"rowMeans",
+		"colCounts",
+		"rowCounts",
+		"LIST",
+		"binarize",
+		"avg",
+		"evaluate",
+		"bestN",
+		"nratings",
+		"nitems",
+		"nusers",
+		"getRuns",
+		"getModel",
+		"getData",
+		"getConfusionMatrix",
+		"dissimilarity",
+		"evaluationScheme",
+		"Recommender"
+		)
