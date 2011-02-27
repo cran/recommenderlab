@@ -43,5 +43,12 @@ hist(colCounts(MovieLense))
 
 ## mean rating (averaged over users)
 mean(rowMeans(MovieLense))
+
+## create a recommender
+rec <- Recommender(MovieLense, method="POP")
+
+pre <- predict(rec, MovieLense[1])
+LIST(pre)
+
 }
 \keyword{datasets}

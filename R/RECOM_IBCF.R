@@ -111,3 +111,7 @@ recommenderRegistry$set_entry(
 	method="IBCF", dataType = "binaryRatingMatrix", fun=BIN_IBCF, 
 	description="Recommender based on item-based collaborative filtering (binary rating data).")
 
+recommenderRegistry$set_entry(
+	method="IBCF", dataType = "realRatingMatrix", fun=BIN_IBCF,
+	description="Recommender based on item-based collaborative filtering (real data).")
+
