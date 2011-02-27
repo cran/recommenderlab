@@ -84,3 +84,9 @@ recommenderRegistry$set_entry(
         method="UBCF", dataType = "binaryRatingMatrix", fun=BIN_UBCF, 
         description="Recommender based on user-based collaborative filtering (binary data).")
 
+
+recommenderRegistry$set_entry(
+	method="UBCF", dataType = "realRatingMatrix", fun=BIN_UBCF,
+	description="Recommender based on user-based collaborative filtering (real data).")
+
+

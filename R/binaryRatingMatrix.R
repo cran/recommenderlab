@@ -31,20 +31,6 @@ setMethod("LIST", signature(from = "binaryRatingMatrix"),
 
 setAs("binaryRatingMatrix", "list", function(from) LIST(from))
 
-
-
-## dissimilarity
-setMethod("dissimilarity", signature(x = "binaryRatingMatrix"),
-	function(x, y = NULL, method = NULL, args = NULL, which = "users") {
-		## dissimilarity is defined in arules for itemMatrix
-		if(which == "users") which <- "transactions" ## "items" is ok
-		x <- x@data
-		if(!is.null(y)) y <- y@data
-
-		dissimilarity(x, y, method, args, which)
-	}
-)
-
 ## split test data
 setMethod(".splitKnownUnknown", signature(data="binaryRatingMatrix"),
 	function(data, given) {

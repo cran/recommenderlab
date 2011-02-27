@@ -1,6 +1,8 @@
 \name{dissimilarity}
 \Rdversion{1.1}
+\alias{dissimilarity}
 \alias{dissimilarity,binaryRatingMatrix-method}
+\alias{dissimilarity,realRatingMatrix-method}
 \title{
 Dissimilarity Calculation Between Rating Data
 }
@@ -9,6 +11,7 @@ Calculate dissimilarities between ratings by users and for items.
 }
 \usage{
 \S4method{dissimilarity}{binaryRatingMatrix}(x, y = NULL, method = NULL, args = NULL, which="users")
+\S4method{dissimilarity}{realRatingMatrix}(x, y = NULL, method = NULL, args = NULL, which="users")
 }
 \arguments{
   \item{x}{a rating matrix.}

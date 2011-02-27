@@ -1,5 +1,6 @@
 \name{predict}
 \Rdversion{1.1}
+\alias{predict}
 \alias{predict,Recommender-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
