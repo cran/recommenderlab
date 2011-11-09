@@ -36,7 +36,7 @@ BIN_AR <- function(data, parameter = NULL) {
     ) 
 
     
-    predict <- function(model, newdata, n=10) {
+    predict <- function(model, newdata, n=10, ...) {
         n <- as.integer(n)
         measure <- model$measure
 

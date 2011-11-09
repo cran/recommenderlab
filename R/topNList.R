@@ -1,4 +1,6 @@
+## top-N lists
 
+## coercion
 setAs("topNList", "dgTMatrix",
 	function(from) {
 		i <- rep(1:length(from@items), lapply(from@items, length))
@@ -11,7 +13,6 @@ setAs("topNList", "dgTMatrix",
 			Dimnames = list(names(from@items), from@itemLabels))
 	})
 
-
 setAs("topNList", "dgCMatrix",
 	function(from) as(as(from, "dgTMatrix"),"dgCMatrix"))
 
@@ -21,12 +22,59 @@ setAs("topNList", "ngCMatrix",
 setAs("topNList", "matrix",
 	function(from) as(as(from, "dgTMatrix"),"matrix"))
 
-setMethod("LIST", signature(from = "topNList"),
+setMethod("getList", signature(from = "topNList"),
 	function(from, decode = TRUE, ...)
 	if(decode) lapply(from@items, function(y) from@itemLabels[y])
 	else from@items)
 
-setAs("topNList", "list", function(from) LIST(from, decode = TRUE))
+setAs("topNList", "list", function(from) getList(from, decode = TRUE))
+
+## creation from realRatingMatrix
+setMethod("getTopNLists", signature(x = "realRatingMatrix"),
+	function(x, n= 10, minRating = NA){
+	    n <- as.integer(n)
+	    x.m <- as(x, "matrix")
+
+	    if(!is.na(minRating)) x.m[x.m<minRating] <- NA
+
+	    reclist <- lapply(1:nrow(x), FUN=function(i) {
+			head(order(as(x.m[i,],"matrix"),
+					decreasing=TRUE, na.last=NA), n)
+		    })
+
+	    new("topNList", items = reclist, itemLabels = colnames(x), n = n)
+	})
+
+## only keep best n items.
+setMethod("bestN", signature(x = "topNList"),
+	function(x, n = 10) new("topNList", items = lapply(x@items, head, n), 
+		itemLabels = x@itemLabels, n = as.integer(n)))
+
+
+setMethod("removeKnownItems", signature(x = "topNList"),
+	function(x, known, replicate = FALSE) {
+	    if(!is(known, "ratingMatrix")) 
+		stop("known needs to be a ratingMatrix!")
+
+	    ## replicate the first list for each known user
+	    if(replicate && length(x) == 1) {
+		x@items <- replicate(nrow(known), x@items[[1]], simplify=FALSE)
+	    }
+
+	    if(length(x) != nrow(known)) 
+		stop("length of x and number of rows in known do not match!")
+
+
+	    x@items <- lapply(1:length(x), FUN=function(i) {
+			setdiff(x@items[[i]], 
+				getList(known[i], 
+					decode=FALSE, ratings=FALSE)[[1]])
+		    })
+	    x
+	})
+
+setMethod("length", signature(x = "topNList"),
+	function(x) length(x@items))
 
 setMethod("show", signature(object = "topNList"),
 	function(object) {
@@ -36,9 +84,6 @@ setMethod("show", signature(object = "topNList"),
 		invisible(NULL)
 	})
 
-setMethod("bestN", signature(x = "topNList"),
-	function(x, n = 10) new("topNList", items = lapply(x@items, head, n), 
-		itemLabels = x@itemLabels, n = as.integer(n)))
 	
 setMethod("colCounts", signature(x = "topNList"),
 	function(x, ...) {

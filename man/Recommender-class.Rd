@@ -12,7 +12,6 @@
 \section{Objects from the Class}{
 Objects are created by
 the creator function \code{Recommender(data, method, parameter = NULL)} 
-(see class \code{"ratingMatrix"}).
 }
 \section{Slots}{
 	 \describe{
@@ -38,10 +37,9 @@ the creator function \code{Recommender(data, method, parameter = NULL)}
 %\references{ ~put references to the literature/web site here ~ }
 %\author{ ~~who you are~~ }
 %\note{ ~~further notes~~ }
-
 \seealso{
-	See \code{\link{Recommender}} for the constructor and
-	\code{\linkS4class{ratingMatrix}}.
+	See \code{\link{Recommender}} for the constructor function and 
+	a description of availble methods.
 }
 %\examples{
 %}

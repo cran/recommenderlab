@@ -13,7 +13,7 @@ setMethod("plot", signature(x = "evaluationResults"),
 
 			x <- x[,take]
 			if(add) lines(x, type=type,...) 
-			else plot(x, type=type, ...)
+			else graphics::plot(x, type=type, ...)
 
 			## add annodations (xpd: don't clip)
 			if(annotate) text(x[,1], x[,2], pos=3, 
@@ -24,7 +24,7 @@ setMethod("plot", signature(x = "evaluationResults"),
 			## plot first
 			x <- cm[[1]][,take]
 			if(add) lines(x, type=type,...)
-			else plot(x, type=type, ...)
+			else graphics::plot(x, type=type, ...)
 			
 			## add annodations
 			if(annotate) text(x[,1], x[,2], pos=3, 
@@ -69,7 +69,7 @@ setMethod("plot", signature(x = "evaluationResultList"),
     if(length(col)==1) col <- rep(col, length(x))
         
 
-    plot(NA, xlab=take[1], ylab=take[2], ylim=ylim, xlim=xlim)
+    graphics::plot(NA, xlab=take[1], ylab=take[2], ylim=ylim, xlim=xlim)
     legend(x=legend, legend=names(x), col=col, 
         pch = pch, lty=lty, bty="n")
     for(i in 1:length(x)) plot(x[[i]], y=plot_type, 

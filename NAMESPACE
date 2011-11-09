@@ -1,11 +1,10 @@
 importFrom("graphics", "plot") ## we need the generic for plot
-
 importFrom("proxy", "dist")
 
 ## get generics and methods
-importFrom("Matrix", "rowSums", "colSums", "colMeans", "summary")
+importFrom("Matrix", "rowSums", "colSums", "rowMeans", "colMeans", "summary")
 ## get just methods
-importMethodsFrom("Matrix", "image", "t", "crossprod")
+importMethodsFrom("Matrix", "image", "t", "crossprod", "tcrossprod", "which")
 
 ## get generics and methods
 importFrom("arules", "predict", "nitems", "sample", "LIST", 
@@ -30,6 +29,11 @@ exportClasses(
 		"evaluationResultList"
 		)
 
+export(
+		"dropNA",
+		"dropNA2matrix"
+	    )
+
 exportMethods(
 		"[",
 		"coerce",	## setAs
@@ -38,25 +42,35 @@ exportMethods(
 		"image",
 		"sample",
 		"summary",
+
+		"calcPredictionError",
 		"predict",
-		"dissimilarity",
-		"colMeans",
-		"rowMeans",
+#		"colMeans",
+#		"rowMeans",
 		"colCounts",
 		"rowCounts",
-		"LIST",
+		"colSds",
+		"rowSds",
 		"binarize",
 		"avg",
 		"evaluate",
 		"bestN",
 		"nratings",
-		"nitems",
-		"nusers",
+		"normalize",
+		"denormalize",
+		"getNormalize",
+		"getRatings",
 		"getRuns",
 		"getModel",
 		"getData",
 		"getConfusionMatrix",
+		"getTopNLists",
 		"dissimilarity",
+		"similarity",
 		"evaluationScheme",
-		"Recommender"
+		"removeKnownRatings",
+		"removeKnownItems",
+		"Recommender",
+		"getList",
+		"getData.frame"
 		)

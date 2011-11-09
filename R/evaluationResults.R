@@ -25,11 +25,17 @@ setMethod("getConfusionMatrix", signature(x = "evaluationResults"),
 setMethod("avg", signature(x = "evaluationResults"),
 	function(x, trim = 0, na.rm = FALSE, ...) {
 
-		x <- getConfusionMatrix(x)
+	    x <- getConfusionMatrix(x)
+
+	    if(length(x)>1) {
 		avg <- x[[1]]
 		for(i in 2:length(x)) avg <- avg+x[[i]]
 		x <- avg/length(x)
-		x
+	    }else{
+		x <- x[[1]]
+	    }
+	    
+	    x
 	})
 
 setMethod("plot", signature(x = "evaluationResults"),

@@ -15,7 +15,7 @@ setMethod("show", signature(object = "Recommender"),
 	function(object) {
 		cat("Recommender of type", sQuote(object@method), 
 			"for", sQuote(object@dataType),
-			"learned using", object@ntrain, "users.\n")
+			"\nlearned using", object@ntrain, "users.\n")
 		invisible(NULL)
 	})
 	

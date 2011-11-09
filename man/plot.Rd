@@ -1,12 +1,13 @@
 \name{plot}
 \Rdversion{1.1}
+\alias{plot}
 \alias{plot,evaluationResults-method}
 \alias{plot,evaluationResultList-method}
 \title{
 Plot Evaluation Results
 }
 \description{
-Creats precision-recall or ROC plots for recommender evaluation results.
+Creates precision-recall or ROC plots for recommender evaluation results.
 }
 \usage{
 \S4method{plot}{evaluationResults}(x, y,
