@@ -3,7 +3,6 @@
 \alias{evaluate}
 \alias{evaluate,evaluationScheme,character-method}
 \alias{evaluate,evaluationScheme,list-method}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Evaluate a Recommender Models
 }
@@ -12,12 +11,12 @@ Evaluates a single or a list of recommender model given an evaluation scheme.
 }
 \usage{
 evaluate(x, method, ...)
-\S4method{evaluate}{evaluationScheme,character}(x, method, n=1:10, 
-parameter=NULL, progress = TRUE, keepModel=FALSE)
-\S4method{evaluate}{evaluationScheme,list}(x, method, n=1:10, 
-parameter=NULL, progress = TRUE, keepModel=FALSE)
+
+\S4method{evaluate}{evaluationScheme,character}(x, method, n=1:10, parameter=NULL, 
+    progress = TRUE, keepModel=FALSE)
+\S4method{evaluate}{evaluationScheme,list}(x, method, n=1:10, parameter=NULL, 
+    progress = TRUE, keepModel=FALSE)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{an evaluation scheme (class \code{"evaluationScheme"}).}
   \item{method}{a character string or a list. If
@@ -29,9 +28,10 @@ parameter=NULL, progress = TRUE, keepModel=FALSE)
   \code{"parameters"} containing the parameters used for this recommender method.
   See \code{Recommender} for available methods.}
   \item{n}{N (number of recommendations) of the top-N lists generated.}
-  \item{parameter}{parameters for the recommender algorithm.}
-  \item{progress}{report progress?}
-  \item{keepModel}{store used recommender models?}
+  \item{parameter}{a list with parameters for the recommender algorithm (only
+    used when \code{method} is a single method).}
+  \item{progress}{logical; report progress?}
+  \item{keepModel}{logical; store used recommender models?}
   \item{\dots}{further arguments. }
 }
 \value{
@@ -63,9 +63,7 @@ plot(ev, type="o", annotate = TRUE)
 algorithms <- list(
 		RANDOM = list(name = "RANDOM", param = NULL),
 		POPULAR = list(name = "POPULAR", param = NULL),
-		UBCF = list(name = "UBCF", param = NULL),
-		IBCF = list(name = "IBCF", param=NULL),
-		AR = list(name = "AR", param=NULL)
+		UBCF = list(name = "UBCF", param = NULL)
 		)
 
 evlist <- evaluate(es, algorithms)
@@ -74,7 +72,5 @@ plot(evlist, legend="topright")
 ## select the first results
 evlist[[1]]
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 %\keyword{ ~kwd1 }
 %\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

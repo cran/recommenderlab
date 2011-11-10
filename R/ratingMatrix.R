@@ -6,10 +6,6 @@
 ## dim
 setMethod("dim", signature(x = "ratingMatrix"), 
 	function(x) dim(x@data))
-setMethod("nitems", signature(x = "ratingMatrix"), 
-	function(x, ...) ncol(x))
-setMethod("nusers", signature(x = "ratingMatrix"), 
-	function(x, ...) nrow(x))
 
 ## dimnames
 setMethod("dimnames", signature(x = "ratingMatrix"), 
@@ -21,8 +17,34 @@ setReplaceMethod("dimnames", signature(x = "ratingMatrix",
 		x
 	})
 
+## coercion
+setAs("ratingMatrix", "list", function(from) getList(from))
+
+## this expects all ratingMatrices to be coercable to dgTMatrix 
+setMethod("getData.frame", signature(from = "ratingMatrix"),
+	function(from, decode = TRUE, ratings = TRUE,...) {
+	    dgT <- as(from, "dgTMatrix")
+
+	    if(decode) {
+		df <- data.frame(user=rownames(from)[dgT@i+1L],
+			item=colnames(from)[dgT@j+1L],
+			rating=dgT@x)
+	    }else{
+		df <- data.frame(user=dgT@i+1L,
+			item=dgT@j+1L,
+			rating=dgT@x)
+	    }
+
+	    if(!ratings) df <- df[,-3]
+
+	    ## sort by users
+	    df[order(df[,1]),]
+	})
+
+setAs("ratingMatrix", "data.frame", function(from) getData.frame(from))
+
 ## row/col counts, sums, etc.
-## MAtrix does not handle dimnames well
+## Matrix does not handle dimnames well
 setMethod("colCounts", signature(x = "ratingMatrix"), 
 	function(x, ...) {
 		s <- colSums(as(x, "ngCMatrix"))
@@ -70,15 +92,22 @@ setMethod("rowMeans", signature(x = "ratingMatrix"),
 setMethod("nratings", signature(x = "ratingMatrix"), 
 	    function(x, ...) sum(rowCounts(x)))
 
+
+setMethod("getNormalize", signature(x = "ratingMatrix"), 
+	    function(x, ...) x@normalize)
+
+
 ## subset
 setMethod("[", signature(x = "ratingMatrix"),
-		function(x, i, j, ..., drop) {
-			if(missing(i)) i <- 1:nrow(x)
-			if(missing(j)) j <- 1:ncol(x)
+	function(x, i, j, ..., drop) {
+	    if(!missing(drop)) warning("drop not implemented for ratingMatrix!")	
 
-			x@data <- x@data[i,j, ..., drop=FALSE]
-			x
-		})
+	    if(missing(i)) i <- 1:nrow(x)
+	    if(missing(j)) j <- 1:ncol(x)
+
+	    x@data <- x@data[i,j, ..., drop=FALSE]
+	    x
+	})
 
 
 ## sample
@@ -93,16 +122,28 @@ setMethod("sample", signature(x = "ratingMatrix"),
 ## show
 setMethod("show", signature(object = "ratingMatrix"),
 	function(object) {
-		cat(nrow(object), 'x', ncol(object), "rating matrix of class",
-			sQuote(class(object)), "\nwith",
-			nratings(object), "ratings.\n")
-		invisible(NULL)
+	    cat(nrow(object), 'x', ncol(object), "rating matrix of class",
+		    sQuote(class(object)), "with",
+		    nratings(object), "ratings.\n")
+	    if(!is.null(object@normalize)) {
+		cat("Normalized using",object@normalize$method,"on ") 
+		if(object@normalize$row) cat("rows.")
+		else cat("columns.")
+		cat("\n")
+	    }
+	    invisible(NULL)
 	})
 
 ## image
 setMethod("image", signature(x = "ratingMatrix"),
-	function(x, xlab = "Items (Columns)", ylab = "Users (Rows)", ...)
-	image(as(x, "dgTMatrix"), ylab = ylab, xlab = xlab, ...)
-)
+	function(x, xlab = "Items (Columns)", ylab = "Users (Rows)", 
+		colorkey=TRUE, ...) {
+	
+	## binaryRatingMatrix does not need a colorkey
+	if(is(x, "binaryRatingMatrix")) colorkey <- FALSE
+
+	Matrix::image(as(x, "dgTMatrix"), ylab = ylab, xlab = xlab, 
+		colorkey = colorkey, ...)
+    })
 
 

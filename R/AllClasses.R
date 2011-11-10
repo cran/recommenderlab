@@ -1,5 +1,22 @@
+## helper
+setClassUnion("listOrNull", c("list", "NULL"))
+
+## Recommender
+setClass("Recommender",
+	representation(
+		method	= "character", 
+		dataType= "character", 
+		ntrain	= "integer",
+		model	= "list",
+		predict = "function"
+	)
+)
+
 ## Ratings
-setClass("ratingMatrix")
+setClass("ratingMatrix",
+	representation(
+		normalize = "listOrNull"
+	))
 
 setClass("binaryRatingMatrix",
 	contains="ratingMatrix",
@@ -14,18 +31,9 @@ setClass("realRatingMatrix",
 	))
 
 
-## Recommender
-setClass("Recommender",
-	representation(
-		method	= "character", 
-		dataType= "character", 
-		ntrain	= "integer",
-		model	= "list",
-		predict = "function"
-	)
-)
 
 ## Top-N list
+## items is a list of index vectors with the top N items.
 setClass("topNList",
 	representation(
 		items   = "list",
@@ -45,12 +53,10 @@ setClass("evaluationScheme",
 		runsTrain= "list",
 		data	= "ratingMatrix",
 		knownData= "ratingMatrix",
-		unknownData= "ratingMatrix"
+		unknownData= "ratingMatrix",
+		goodRating = "numeric"
 	)
 )
-
-
-setClassUnion("listOrNull", c("list", "NULL"))
 
 setClass("confusionMatrix",
 	representation(
