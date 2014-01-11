@@ -66,7 +66,7 @@ Joint Conference on Artificial Intelligence, pp. 1137-1143.
 \examples{
 data("MSWeb")
 
-MSWeb10 <- sample(MSWeb[rowCounts(MSWeb) >10,], 100)
+MSWeb10 <- sample(MSWeb[rowCounts(MSWeb) >10,], 50)
 MSWeb10 
 
 esSplit <- evaluationScheme(MSWeb10, method="split",

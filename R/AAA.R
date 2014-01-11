@@ -1,4 +1,4 @@
-## helper functions and registry
+## helper functions
 
 .get_parameters <- function(p, parameter) {
     if(!is.null(parameter) && length(parameter) != 0) {

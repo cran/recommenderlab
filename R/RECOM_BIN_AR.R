@@ -1,16 +1,18 @@
 ## recommendations based on association rules
 
+.BIN_AR_param <- list(
+  support = 0.1, 
+  confidence = 0.3,
+  maxlen = 2,
+  measure = "confidence",
+  verbose = FALSE, 
+  decreasing = TRUE
+)
+
 BIN_AR <- function(data, parameter = NULL) {
 
     ## parameters
-    p <- .get_parameters(list(
-                    support = 0.1, 
-                    confidence = 0.3,
-                    maxlen = 2,
-                    measure = "confidence",
-                    verbose = FALSE, 
-                    decreasing = TRUE
-                    ), parameter)
+    p <- .get_parameters(.BIN_AR_param, parameter)
 
     data <- data@data
 
@@ -36,8 +38,16 @@ BIN_AR <- function(data, parameter = NULL) {
     ) 
 
     
-    predict <- function(model, newdata, n=10, ...) {
-        n <- as.integer(n)
+    predict <- function(model, newdata, n=10, data=NULL, ...) {
+        
+	## newdata are userid
+	if(is.numeric(newdata)) {
+	    if(is.null(data) || !is(data, "ratingMatrix"))
+		stop("If newdata is a user id then data needes to be the training dataset.")
+	    newdata <- data[newdata,]
+	}
+	
+	n <- as.integer(n)
         measure <- model$measure
 
         reclist <- list()
@@ -61,5 +71,6 @@ BIN_AR <- function(data, parameter = NULL) {
 ## register recommender
 recommenderRegistry$set_entry(
 	method="AR", dataType = "binaryRatingMatrix", fun=BIN_AR,
-    description="Recommender based on association rules.")
-
+    description="Recommender based on association rules.",
+    parameters=.BIN_AR_param
+  )

@@ -17,7 +17,7 @@ setMethod("evaluate", signature(x = "evaluationScheme", method = "character"),
 			    progress=progress, keepModel=keepModel)
                 }
 			
-		#if(progress) cat("\n")
+		if(progress) cat("\n")
 
 		new("evaluationResults", results = cm, 
 			method=recommenderRegistry$get_entry(method)$method)
@@ -96,8 +96,9 @@ setMethod("evaluate", signature(x = "evaluationScheme", method = "list"),
 		cm[i, "FP"] <- mean(tp_fp - tp)
 		cm[i, "FN"] <- mean(tp_fn - tp)
 		## Reduced TN by the number of given items. Bug
-		## reported by ("Zhang, Martin F" <Martin.F.Zhang@asia.ccb.com>)
-		cm[i, "TN"] <- ncol(train) - scheme@given + mean(pred_known) - cm[i, "TP"] -  cm[i, "FP"] - cm[i, "FN"]
+		## reported by (Zhang, Martin F)
+		## mean if given has multiple values (reported by Luca Marotta)
+		cm[i, "TN"] <- ncol(train) - mean(scheme@given) + mean(pred_known) - cm[i, "TP"] -  cm[i, "FP"] - cm[i, "FN"]
 		cm[i, "PP"] <- mean(tp_fp)
 
 		## calculate some important measures

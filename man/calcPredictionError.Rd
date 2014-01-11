@@ -37,7 +37,7 @@ data(Jester5k)
 
 ## create 90/10 split (known/unknown) for the first 500 users in Jester5k
 e <- evaluationScheme(Jester5k[1:500], method="split", train=0.9, 
-    k=1, given=15)
+    k=1, given=15, goodRating=5)
 e
 
 ## create a user-based CF recommender using training data

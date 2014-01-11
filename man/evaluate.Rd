@@ -45,7 +45,7 @@ or if \code{method} is a list an object of class \code{"evaluationResultList"}.
 }
 \examples{
 data("MSWeb")
-MSWeb10 <- sample(MSWeb[rowCounts(MSWeb) >10,], 100)
+MSWeb10 <- sample(MSWeb[rowCounts(MSWeb) >10,], 50)
 
 ## create an evaluation scheme
 es <- evaluationScheme(MSWeb10, method="cross-validation",
