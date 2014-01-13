@@ -36,7 +36,8 @@ similarity(x, y = NULL, method = NULL, args = NULL, ...)
 }
 \details{
 Similarities are computed from dissimilarities using \eqn{s=1/(1+d)}
-or \eqn{s=1-d} depending on the measure.
+or \eqn{s=1-d} depending on the measure. For Pearson we use 1 - positive 
+correlation.
 }
 \value{
   returns an object of class \code{dist}, \code{simil} 

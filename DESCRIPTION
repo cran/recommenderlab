@@ -1,11 +1,11 @@
 Package: recommenderlab
-Version: 0.1-3
-Date: 2011-11-09
+Version: 0.1-4
+Date: 2014-01-11
 Title: Lab for Developing and Testing Recommender Algorithms
-Author: Michael Hahsler
-Maintainer: Michael Hahsler <michael@hahsler.net>
+Authors@R: c(person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
+                email = "mhahsler@lyle.smu.edu"))
 Description: Provides a research infrastructure to test and develop
-        recommender algorithms.
+    recommender algorithms.
 Classification/ACM: G.4, H.2.8
 Depends: R (>= 2.10.0), methods, Matrix, registry, arules (>= 1.0-1),
         proxy
@@ -13,7 +13,11 @@ Suggests: ROCR
 URL: http://R-Forge.R-project.org/projects/recommenderlab/,
         http://lyle.smu.edu/IDA/recommenderlab/
 License: GPL-2
-Copyright: (C) Michael Hahsler
-Packaged: 2011-11-09 20:42:37 UTC; hahsler
+Copyright: (C) Michael Hahsler (PCA and SVD implementation (C) Saurabh
+        Bathnagar)
+Packaged: 2014-01-12 23:38:49 UTC; hahsler
+Author: Michael Hahsler [aut, cre, cph]
+Maintainer: Michael Hahsler <mhahsler@lyle.smu.edu>
+NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2011-11-10 12:59:08
+Date/Publication: 2014-01-13 16:12:06

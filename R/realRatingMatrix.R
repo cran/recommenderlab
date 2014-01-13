@@ -89,7 +89,7 @@ setMethod("removeKnownRatings", signature(x = "realRatingMatrix"),
 	    }
 
 	    if(nrow(x) != nrow(known))
-		stop("number of rows in x and known do not match!")
+		stop("removeKnownRatings: Number of rows in x and known do not match!")
 
 	    ## FIXME: make sparse
 	    xm <- as(x, "matrix")
@@ -134,8 +134,11 @@ setMethod(".splitKnownUnknown", signature(data="realRatingMatrix"),
 
 		## we create a logical mask via a triplet Matrix
 		trip <- as(data, "dgTMatrix")
-		items <- lapply(0:(nrow(data)-1), function(i) which(trip@i == i))
-		take <- unlist(lapply(items, sample, given))
+		items <- lapply(0:(nrow(data)-1), 
+			function(i) which(trip@i == i))
+
+		take <-  unlist(lapply(1:length(items), 
+				function(i) sample(items[[i]],given[i])))
 
 		tripUnknown <- trip
 		tripUnknown@x <- tripUnknown@x[-take]

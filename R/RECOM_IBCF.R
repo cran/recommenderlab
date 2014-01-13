@@ -1,14 +1,15 @@
 ## item-based top N recomender (see Karypis 2001)
 
+.BIN_IBCF_params <- list(
+	k = 30,
+	method="Jaccard",
+	normalize_sim_matrix = FALSE,
+	alpha = 0.5
+	)
+
 BIN_IBCF <- function(data, parameter= NULL) {
     
-	p <- .get_parameters(list(
-            k = 30, 
-            method="Jaccard",
-	    normalize_sim_matrix = FALSE,
-            alpha = 0.5
-	    ), parameter)
-    
+    p <- .get_parameters(.BIN_IBCF_params, parameter)
     
     ## this might not fit into memory! Maybe use a sample?
     sim <- as.matrix(similarity(data, method=p$method, which="items", 
@@ -39,9 +40,18 @@ BIN_IBCF <- function(data, parameter= NULL) {
     
 
     predict <- function(model, newdata, n = 10, 
-	    type=c("topNList", "ratings"), ...) {
+	    data=NULL, type=c("topNList", "ratings"), ...) {
 
 	type <- match.arg(type)
+	
+	## newdata are userid
+	if(is.numeric(newdata)) {
+	    if(is.null(data) || !is(data, "ratingMatrix"))
+		stop("If newdata is a user id then data needes to be the training dataset.")
+	    newdata <- data[newdata,]
+	}
+	
+	
 	n <- as.integer(n)
 	sim <- model$sim 
 	u <- as(newdata, "dgCMatrix")
@@ -76,23 +86,24 @@ BIN_IBCF <- function(data, parameter= NULL) {
 ## register recommender
 recommenderRegistry$set_entry(
 	method="IBCF", dataType = "binaryRatingMatrix", fun=BIN_IBCF, 
-	description="Recommender based on item-based collaborative filtering (binary rating data).")
+	description="Recommender based on item-based collaborative filtering (binary rating data).",
+  parameters=.BIN_IBCF_params)
 
 
-
+.REAL_IBCF_params <- list(
+  k = 30, 
+  method="Cosine",
+  normalize = "center", 
+  normalize_sim_matrix = FALSE,
+  alpha = 0.5,
+  na_as_zero = FALSE,
+  minRating = NA
+)
 
 
 REAL_IBCF <- function(data, parameter= NULL) {
 
-    p <- .get_parameters(list(
-		    k = 30, 
-		    method="Cosine",
-		    normalize = "center", 
-		    normalize_sim_matrix = FALSE,
-		    alpha = 0.5,
-		    na_as_zero = FALSE,
-		    minRating = NA
-		    ), parameter)
+    p <- .get_parameters(.REAL_IBCF_params, parameter)
 
 
     if(!is.null(p$normalize))
@@ -103,7 +114,7 @@ REAL_IBCF <- function(data, parameter= NULL) {
 		args=list(alpha=p$alpha, na_as_zero=p$na_as_zero)))
 
     ## normalize rows to 1
-    if(p$normalize_sim_matrix) sim <- sim/rowSums(sim)
+    if(p$normalize_sim_matrix) sim <- sim/rowSums(sim, na.rm=TRUE)
 
     ## reduce similarity matrix to keep only the k highest similarities
     diag(sim) <- NA
@@ -124,9 +135,17 @@ REAL_IBCF <- function(data, parameter= NULL) {
 	    )
 
     predict <- function(model, newdata, n = 10, 
-	    type=c("topNList", "ratings"), ...) {
+	    data=NULL, type=c("topNList", "ratings"), ...) {
 	
 	type <- match.arg(type)
+
+	## newdata are userid
+	if(is.numeric(newdata)) {
+	    if(is.null(data) || !is(data, "ratingMatrix"))
+		stop("If newdata is a user id then data needes to be the training dataset.")
+	    newdata <- data[newdata,]
+	}
+
 	n <- as.integer(n)
 	
 	if(!is.null(model$normalize)) 
@@ -136,7 +155,7 @@ REAL_IBCF <- function(data, parameter= NULL) {
 	sim <- model$sim 
 	u <- as(newdata, "dgCMatrix")
 	
-	ratings <- as(tcrossprod(sim,u) / tcrossprod(sim, u!=0), "matrix")
+	ratings <- t(as(tcrossprod(sim,u) / tcrossprod(sim, u!=0), "matrix"))
 	
 	ratings <- new("realRatingMatrix", data=dropNA(ratings), 
 		normalize = getNormalize(newdata))
@@ -169,7 +188,6 @@ REAL_IBCF <- function(data, parameter= NULL) {
 ## register recommender
 recommenderRegistry$set_entry(
 	method="IBCF", dataType = "realRatingMatrix", fun=REAL_IBCF,
-	description="Recommender based on item-based collaborative filtering (real data).")
-
-
+	description="Recommender based on item-based collaborative filtering (real data).",
+	parameters=.REAL_IBCF_params)
 

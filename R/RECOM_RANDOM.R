@@ -5,9 +5,16 @@ RANDOM <- function(data=NULL, parameter=NULL) {
     model <- list(range = range(as(data, "dgCMatrix")))
 
     predict <- function(model=NULL, newdata, n=10, 
-	    type=c("topNList", "ratings"), ...) {
+	    data= NULL, type=c("topNList", "ratings"), ...) {
 
 	type <- match.arg(type)
+
+	## newdata are userid
+	if(is.numeric(newdata)) {
+	    if(is.null(data) || !is(data, "ratingMatrix"))
+		stop("If newdata is a user id then data needes to be the training dataset.")
+	    newdata <- data[newdata,]
+	}
 
 	## create random ratings 
 	ratings <- matrix(runif(nrow(newdata)*ncol(newdata), 

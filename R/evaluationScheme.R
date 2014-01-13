@@ -2,6 +2,10 @@ setMethod("evaluationScheme", signature(data = "ratingMatrix"),
 	function(data, method="split", train=0.9, k=NULL, 
 		given=3, goodRating=NA) {
 	    goodRating <- as.numeric(goodRating)
+	    
+	    if(is(data, "realRatingMatrix") && is.na(goodRating))
+		stop("You need to set goodRating in the evaluationScheme for a realRatingMatrix!")
+	    
 	    n <- nrow(data)
 
 	    ## given can be one integer or a vector of length data

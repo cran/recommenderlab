@@ -8,7 +8,18 @@ BIN_POPULAR <- function(data, parameter = NULL) {
 
     model <- list( topN = topN )
 
-    predict <- function(model, newdata, n=10, ...) {
+    predict <- function(model, newdata, n=10, 
+	    data=NULL,  type=c("topNList", "ratings"),...) {
+	
+	type <- match.arg(type)
+	if(type=="ratings") stop("POPULAR for binary data does not support ratings.")
+
+	if(is.numeric(newdata)) {
+	    if(is.null(data) || !is(data, "ratingMatrix"))
+		stop("If newdata is a user id then data needes to be the training dataset.")
+	    newdata <- data[newdata,]
+	}
+
 	topN <- removeKnownItems(model$topN, newdata, replicate=TRUE)
 	topN <- bestN(topN, n)
 	return(topN)
@@ -52,9 +63,15 @@ REAL_POPULAR <- function(data, parameter = NULL) {
 	    ), p)
 
     predict <- function(model, newdata, n=10,
-	    type=c("topNList", "ratings"), ...) {
+	    data=NULL, type=c("topNList", "ratings"), ...) {
 
 	type <- match.arg(type)
+	
+	if(is.numeric(newdata)) {
+	    if(is.null(data) || !is(data, "ratingMatrix"))
+		stop("If newdata is a user id then data needes to be the training dataset.")
+	    newdata <- data[newdata,]
+	}
     
 	if(type=="topNList") {
 	    topN <- removeKnownItems(model$topN, newdata, replicate=TRUE)

@@ -10,10 +10,18 @@ recommenderRegistry$set_field("fun", type = "function",
     is_key = FALSE)
 recommenderRegistry$set_field("description", type = "character", 
     is_key = FALSE)
+recommenderRegistry$set_field("parameters", type = "list", 
+    is_key = FALSE)
 
 
-print.recommender_method <- function(x, ...) with(x, 
+print.recommender_method <- function(x, ...) {
+  with(x, {
     writeLines(sprintf("Recommender method: %s\nDescription: %s", 
-            x$method, x$description)))
-
+                       method, description))
+  
+    if(is.list(parameters)) { 
+      writeLines("Parameters:")
+      print(as.data.frame(parameters)) 
+    } else writeLines("Parameters: None")
+  })}
 

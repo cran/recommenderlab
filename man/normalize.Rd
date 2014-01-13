@@ -58,9 +58,5 @@ r_n2
 image(r, main="Raw Data")
 image(r_n1, main="Centered")
 image(r_n2, main="Z-Score Normalization")
-
-## check if denormalization works
-identical(r, denormalize(r_n1))
-identical(r, denormalize(r_n2))
 }
 \keyword{manipulation}
