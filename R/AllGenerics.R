@@ -57,8 +57,8 @@ setGeneric("colSds",
 setGeneric("bestN",
 	function(x, ...) standardGeneric("bestN"))
 
-setGeneric("calcPredictionError", 
-	function(x, data, ...) standardGeneric("calcPredictionError"))
+setGeneric("calcPredictionAccuracy", 
+	function(x, data, ...) standardGeneric("calcPredictionAccuracy"))
 
 setGeneric("evaluationScheme",
 	function(data, ...) standardGeneric("evaluationScheme"))

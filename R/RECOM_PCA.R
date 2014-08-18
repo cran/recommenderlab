@@ -27,29 +27,29 @@ REAL_PCA <- function(data, parameter= NULL) {
   # Total number of categories
   cats <- min(dim(lpcv)[2], p$categories)
   
-#   det(lpcv[,1:99] %*% t(lpcv[,1:99]))
+  #   det(lpcv[,1:99] %*% t(lpcv[,1:99]))
   
   # Convert to right type
   itemcat <- new("realRatingMatrix", 
-                          data = as(lpcv[,1:cats], "dgCMatrix"))
+                 data = as(lpcv[,1:cats], "dgCMatrix"))
   
   model <- c(list(
     description = "PCA: Reduced item-category matrix",
     itemcat = itemcat
-    ), p)
+  ), p)
   
   predict <- function(model, newdata, n = 10,
-	  data=NULL, type=c("topNList", "ratings"), ...) {
+                      data=NULL, type=c("topNList", "ratings"), ...) {
     
     type <- match.arg(type)
     
     ## newdata are userid
     if(is.numeric(newdata)) {
-	if(is.null(data) || !is(data, "ratingMatrix"))
-	    stop("If newdata is a user id then data needes to be the training dataset.")
-	newdata <- data[newdata,]
+      if(is.null(data) || !is(data, "ratingMatrix"))
+        stop("If newdata is a user id then data needes to be the training dataset.")
+      newdata <- data[newdata,]
     }
-
+    
     n <- as.integer(n)
     
     if(!is.null(model$normalize))
@@ -59,7 +59,7 @@ REAL_PCA <- function(data, parameter= NULL) {
     u <- as(newdata, "dgCMatrix")
     itemcat <- as(model$itemcat, "dgCMatrix")
     ratings <- u %*% itemcat  %*% t(itemcat)
-  
+    
     ratings <- new("realRatingMatrix", data=dropNA(ratings),
                    normalize = getNormalize(newdata))
     ## prediction done

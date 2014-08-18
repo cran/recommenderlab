@@ -67,9 +67,9 @@ setMethod("binarize", signature(x = "realRatingMatrix"),
 		x@x <- as.numeric(x@x>=minRating)
 		x <- drop0(x)
 		if(is.null(colnames(x))) colnames(x) <- 1:ncol(x)
-		x <- new("itemMatrix", data = t(as(x, "ngCMatrix")), 
-			itemInfo = data.frame(labels=colnames(x)))
-		new("binaryRatingMatrix", data = x)
+		x <- as(t(x), "ngCMatrix")
+    
+    new("binaryRatingMatrix", data = as(x, "itemMatrix"))
 	})
 
 

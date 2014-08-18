@@ -12,10 +12,10 @@ Evaluates a single or a list of recommender model given an evaluation scheme.
 \usage{
 evaluate(x, method, ...)
 
-\S4method{evaluate}{evaluationScheme,character}(x, method, n=1:10, parameter=NULL, 
-    progress = TRUE, keepModel=FALSE)
-\S4method{evaluate}{evaluationScheme,list}(x, method, n=1:10, parameter=NULL, 
-    progress = TRUE, keepModel=FALSE)
+\S4method{evaluate}{evaluationScheme,character}(x, method, type="topNList", 
+  n=1:10, parameter=NULL, progress = TRUE, keepModel=FALSE)
+\S4method{evaluate}{evaluationScheme,list}(x, method, type="topNList", 
+  n=1:10, parameter=NULL, progress = TRUE, keepModel=FALSE)
 }
 \arguments{
   \item{x}{an evaluation scheme (class \code{"evaluationScheme"}).}
@@ -27,7 +27,8 @@ evaluate(x, method, ...)
   named \code{"method"} containing the method and a list names 
   \code{"parameters"} containing the parameters used for this recommender method.
   See \code{Recommender} for available methods.}
-  \item{n}{N (number of recommendations) of the top-N lists generated.}
+  \item{type}{evaluate "topNList" or "ratings"?}
+  \item{n}{N (number of recommendations) of the top-N lists generated (only if type="topNList").}
   \item{parameter}{a list with parameters for the recommender algorithm (only
     used when \code{method} is a single method).}
   \item{progress}{logical; report progress?}
@@ -44,20 +45,21 @@ or if \code{method} is a list an object of class \code{"evaluationResultList"}.
 \code{\linkS4class{evaluationResultList}}.
 }
 \examples{
+### evaluate top-N list recommendations on a binary data set  
 data("MSWeb")
-MSWeb10 <- sample(MSWeb[rowCounts(MSWeb) >10,], 50)
+MSWeb10 <- sample(MSWeb[rowCounts(MSWeb) >10,], 20)
 
 ## create an evaluation scheme
 es <- evaluationScheme(MSWeb10, method="cross-validation",
         k=4, given=3)
 
 ## run evaluation
-ev <- evaluate(es, "POPULAR")
+ev <- evaluate(es, "POPULAR", n=c(1,3,5,10))
 ev
 
-## look at the results
+## look at the results (by the length of the topNList)
 avg(ev)
-plot(ev, type="o", annotate = TRUE)
+plot(ev, annotate = TRUE)
 
 ## now run evaluate with a list
 algorithms <- list(
@@ -66,11 +68,38 @@ algorithms <- list(
 		UBCF = list(name = "UBCF", param = NULL)
 		)
 
-evlist <- evaluate(es, algorithms)
+evlist <- evaluate(es, algorithms, n=c(1,3,5,10))
 plot(evlist, legend="topright")
 
 ## select the first results
 evlist[[1]]
+
+### Evaluate top-N list and then rating prediction error on real ratings 
+data("Jester5k")
+es <- evaluationScheme(Jester5k[1:50], method="cross-validation",
+  k=4, given=10, goodRating=5)
+## Note: goodRating is used to determine positive ratings  
+
+## top-N list recommendation
+ev <- evaluate(es, "RANDOM", type="topNList", n=c(1,3,5,10))
+avg(ev)
+plot(ev, annotate=TRUE)
+  
+## predict missing ratings
+ev <- evaluate(es, "RANDOM", type="ratings")
+avg(ev)
+plot(ev)
+
+  
+## compate predicted ratings for several methods
+algorithms <- list(
+    RANDOM = list(name = "RANDOM", param = NULL),
+    POPULAR = list(name = "POPULAR", param = NULL)
+)
+  
+evlist <- evaluate(es, algorithms, type="ratings")
+avg(evlist)
+plot(evlist)
 }
 %\keyword{ ~kwd1 }
 %\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -12,7 +12,7 @@ independent bootstrap samples.
 evaluationScheme(data, ...)
 
 \S4method{evaluationScheme}{ratingMatrix}(data, method="split", 
-    train=0.9, k=NULL, given=3, goodRating = NA)
+    train=0.9, k=NULL, given, goodRating = NA)
 }
 \arguments{
 	\item{data}{data set as a ratingMatrix.}
@@ -34,8 +34,8 @@ evaluationScheme(data, ...)
 	\item{\dots}{further arguments. }
 }
 \details{
-\code{evaluationScheme} creates an evaluation scheme with \code{k} runs
-and one of the given methods:
+\code{evaluationScheme} creates an evaluation scheme (training and test data) 
+with \code{k} runs and one of the given methods:
 
 \code{"split"} randomly assigns
 the proportion of objects given by \code{train} to the training set and
@@ -50,6 +50,11 @@ part was used as the test set exactly once.
 (sampling with replacement) of size \code{train} times number of users in
 the data set.
 All objects not in the training set are used for testing.
+
+For evaluation, the scheme chooses from the test data for each user
+\code{given} items are randomly as "known" items, the remaining
+items are "unknown." The known items are used to create a prediction and
+it is evaluated how well the algorithm predicts the unknown items.
 }
 \value{
 Returns an object of class \code{"evaluationScheme"}.
@@ -60,6 +65,7 @@ estimation and model selection". Proceedings of  the Fourteenth International
 Joint Conference on Artificial Intelligence, pp. 1137-1143.
 }
 \seealso{
+\code{\link{getData}},
 \code{\linkS4class{evaluationScheme}},
 \code{\linkS4class{ratingMatrix}}.
 }

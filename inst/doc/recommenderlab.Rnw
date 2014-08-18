@@ -1385,8 +1385,8 @@ unknown part of the test data.
 
 <<>>=
 error <- rbind(
-  calcPredictionError(p1, getData(e, "unknown")),
-  calcPredictionError(p2, getData(e, "unknown"))
+  calcPredictionAccuracy(p1, getData(e, "unknown")),
+  calcPredictionAccuracy(p2, getData(e, "unknown"))
 )
 rownames(error) <- c("UBCF","IBCF")
 error
@@ -1556,7 +1556,8 @@ using instead of a given-3 a given-1 scheme.
 Jester_binary <- binarize(Jester5k, minRating=5)
 Jester_binary <- Jester_binary[rowCounts(Jester_binary)>20]
 Jester_binary
-scheme_binary <- evaluationScheme(Jester_binary[1:1000], method="split", train=.9, k=1, given=20)
+scheme_binary <- evaluationScheme(Jester_binary[1:1000], 
+	method="split", train=.9, k=1, given=20)
 scheme_binary
 
 algorithms_binary <- list(

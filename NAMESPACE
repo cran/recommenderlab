@@ -4,15 +4,17 @@ importFrom("graphics", "plot") ## we need the generic for plot
 importFrom("proxy", "dist")
 
 ## get generics and methods
-importFrom("Matrix", "rowSums", "colSums", "rowMeans", "colMeans", "summary")
+importFrom("Matrix", "rowSums", "colSums", "rowMeans", "colMeans", 
+    "summary", "drop0", "rBind")
 ## get just methods
 importMethodsFrom("Matrix", "image", "t", "crossprod", "tcrossprod", "which")
 
 ## get generics and methods
 importFrom("arules", "predict", "nitems", "sample", "LIST", 
-    "dissimilarity")
+    "dissimilarity", "apriori")
 ## get just methods
-importMethodsFrom("arules", "sort", "summary")
+importMethodsFrom("arules", "sort", "summary", 
+    "lhs", "rhs", "quality", "quality<-", "is.subset", "interestMeasure")
 
 ## registry uses S3
 import("registry")
@@ -47,7 +49,7 @@ exportMethods(
 		"sample",
 		"summary",
 
-		"calcPredictionError",
+		"calcPredictionAccuracy",
 		"predict",
 #		"colMeans",
 #		"rowMeans",

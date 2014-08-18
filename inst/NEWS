@@ -1,3 +1,7 @@
+Changes in version 0.1-5 (8/18/2014)
+    * Fixed NAMESPACE problems
+    * evaluation of ratings is now better integrated into evaluate
+    * binarize keeps now dimnames
 
 Changes prior to 0.1-4 (1/11/2013)
     * many
