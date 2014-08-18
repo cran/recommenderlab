@@ -8,6 +8,9 @@ setMethod("plot", signature(x = "evaluationResults"),
 		if(plot_type == "ROC") take <- c("FPR", "TPR")
 		else take <- c("recall", "precision")
 
+	  a <- avg(x)
+	  if(!("TPR" %in% colnames(a))) return(barplot(a))
+    
 		if(avg) {
 			x <- avg(x)
 
@@ -48,6 +51,10 @@ setMethod("plot", signature(x = "evaluationResultList"),
                 avg = TRUE, type="b",
                 annotate= 0, legend="bottomright", ...) {
 
+    a <- avg(x)
+    if(!("TPR" %in% colnames(a[[1]]))) return(barplot(do.call(rbind, a), 
+      beside=TRUE, legend.text=names(a)))
+          
     if(is.null(pch)) pch <- 1:length(x)
     if(type=="l") pch <- NULL
     if(missing(y)) y <- NULL

@@ -77,7 +77,7 @@ Class \code{"\linkS4class{ratingMatrix}"}, directly.
 m <- matrix(sample(c(NA,0:5),100, replace=TRUE, prob=c(.7,rep(.3/6,6))), 
 	nrow=10, ncol=10, dimnames = list(
 	    user=paste('u', 1:10, sep=''),
-	    item=paste('u', 1:10, sep='')    
+	    item=paste('i', 1:10, sep='')    
     ))
 m
 

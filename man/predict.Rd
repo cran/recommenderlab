@@ -27,8 +27,10 @@ Creates recommendations using a recommender model and data about new users.
   \item{type}{ type of recommendation. The default type is 
   \code{"topNList"} which creates
   a top-N recommendation list with recommendations. 
-  Some recommenders can also create other results (e.g., predicted ratings with
-  the type \code{"ratings"}).}
+  Some recommenders can also create other results (e.g., 
+  type \code{"ratings"} returns only predicted ratings with
+  known ratings represented by \code{NA},
+  or type \code{"ratingMatrix"} which returns a completed rating matrix).}
   \item{\dots}{further arguments.}
 }
 %\details{
@@ -57,7 +59,7 @@ as(pre, "list")
 ## predict ratings for new users
 pre <- predict(rec, MovieLense100[101:102], type="ratings")
 pre
-as(pre, "matrix")
+as(pre, "matrix")[,1:10]
 
 
 ## create recommendations using user ids with ids 1..10 in the

@@ -211,8 +211,8 @@ p2
 ### code chunk number 30: recommenderlab.Rnw:1386-1392
 ###################################################
 error <- rbind(
-  calcPredictionError(p1, getData(e, "unknown")),
-  calcPredictionError(p2, getData(e, "unknown"))
+  calcPredictionAccuracy(p1, getData(e, "unknown")),
+  calcPredictionAccuracy(p2, getData(e, "unknown"))
 )
 rownames(error) <- c("UBCF","IBCF")
 error
@@ -301,12 +301,13 @@ plot(results, "prec/rec", annotate=3)
 
 
 ###################################################
-### code chunk number 42: recommenderlab.Rnw:1555-1566
+### code chunk number 42: recommenderlab.Rnw:1555-1567
 ###################################################
 Jester_binary <- binarize(Jester5k, minRating=5)
 Jester_binary <- Jester_binary[rowCounts(Jester_binary)>20]
 Jester_binary
-scheme_binary <- evaluationScheme(Jester_binary[1:1000], method="split", train=.9, k=1, given=20)
+scheme_binary <- evaluationScheme(Jester_binary[1:1000], 
+	method="split", train=.9, k=1, given=20)
 scheme_binary
 
 algorithms_binary <- list(
@@ -317,7 +318,7 @@ algorithms_binary <- list(
 
 
 ###################################################
-### code chunk number 43: recommenderlab.Rnw:1569-1570
+### code chunk number 43: recommenderlab.Rnw:1570-1571
 ###################################################
 results_binary <- evaluate(scheme_binary, algorithms_binary, n=c(1,3,5,10,15,20))
 
