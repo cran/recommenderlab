@@ -1,3 +1,6 @@
+Changes in version 0.1-5 (7/2/2015)
+    * NAMESPACE now imports non standard R packags
+
 Changes in version 0.1-5 (8/18/2014)
     * Fixed NAMESPACE problems
     * evaluation of ratings is now better integrated into evaluate

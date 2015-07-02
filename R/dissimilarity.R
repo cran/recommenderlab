@@ -38,7 +38,7 @@ setMethod("dissimilarity", signature(x = "binaryRatingMatrix"),
 
 ##*******************************************************************
 ## wrapper for realRatingMatrix (transactions)
-## Idea by Christopher Köb
+## Idea by Christopher Koeb
 
 setMethod("dissimilarity", signature(x = "realRatingMatrix"),
 	function(x, y = NULL, method = NULL, args = NULL, 
@@ -83,7 +83,6 @@ setMethod("dissimilarity", signature(x = "realRatingMatrix"),
 	    if(!is.null(y)) { 
 		y <- as(y, "matrix")
 		if(which == "items") y <- t(y) 
-		y <- as(y, "matrix")
 		if(args$na_as_zero) y[is.na(y)] <- 0
 	    }
 
