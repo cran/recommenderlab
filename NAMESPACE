@@ -1,7 +1,9 @@
 import("methods")
 
 importFrom("graphics", "plot") ## we need the generic for plot
-importFrom("proxy", "dist")
+importFrom("proxy", "dist", "as.dist")
+importFrom("stats", "sd", "median", "princomp", "loadings", "runif")
+importFrom("utils", "head")
 
 ## get generics and methods
 importFrom("Matrix", "rowSums", "colSums", "rowMeans", "colMeans", 

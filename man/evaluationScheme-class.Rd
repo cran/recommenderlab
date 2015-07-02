@@ -18,7 +18,10 @@ Objects can be created by
 \section{Slots}{
 	 \describe{
     \item{\code{data}:}{Object of class \code{"ratingMatrix"}; the data set. }
-    \item{\code{given}:}{Object of class \code{"integer"}; items given for evaluation. }
+    \item{\code{given}:}{Object of class \code{"integer"}; given items are 
+    randomly selected for each evaluation user and used presented to the recommender 
+    algorithm to calculate recommend items. The recommended items are compated 
+    to the remaining items for the evaluation user.}
     \item{\code{goodRating}:}{Object of class \code{"numeric"}; Rating at which an item is considered a positive for evaluation. }
     \item{\code{k}:}{Object of class \code{"integer"}; number of runs for evaluation. Default is 1 for method "split" and 10 for "cross-validation" and "bootstrap".}
     \item{\code{knownData}:}{Object of class \code{"ratingMatrix"}; data set with only known (given) items. }
