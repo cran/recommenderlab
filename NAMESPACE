@@ -1,8 +1,8 @@
 import("methods")
 
-importFrom("graphics", "plot") ## we need the generic for plot
+importFrom("graphics", "plot", "barplot", "lines", "text") ## we need the generic for plot
 importFrom("proxy", "dist", "as.dist")
-importFrom("stats", "sd", "median", "princomp", "loadings", "runif")
+importFrom("stats", "sd", "median", "princomp", "loadings", "runif", "cor")
 importFrom("utils", "head")
 
 ## get generics and methods
@@ -13,7 +13,7 @@ importMethodsFrom("Matrix", "image", "t", "crossprod", "tcrossprod", "which")
 
 ## get generics and methods
 importFrom("arules", "predict", "nitems", "sample", "LIST", 
-    "dissimilarity", "apriori")
+    "dissimilarity", "apriori", "itemLabels", "encode")
 ## get just methods
 importMethodsFrom("arules", "sort", "summary", 
     "lhs", "rhs", "quality", "quality<-", "is.subset", "interestMeasure")
