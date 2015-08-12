@@ -63,9 +63,19 @@ REAL_SVD <- function(data, parameter= NULL) {
     # Put back correct names
     rownames(ratings) <- rownames(data)
     colnames(ratings) <- colnames(data)
-    # Only need to give back new users
-    ratings <- ratings[(dim(model$data@data)[1]+1):dim(ratings)[1],]
     
+    # Only need to give back new users
+    firstnew <- dim(model$data@data)[1]+1  # first user from newdata
+    lastnew <- dim(ratings)[1]  # last user from newdata
+    ratings <- ratings[firstnew:lastnew,]
+    
+    if(firstnew==lastnew) {
+        ratings <- t(as.matrix(ratings))  # to fix revert transpose if newdata is only 1 row
+        }
+        if(firstnew<lastnew) {
+            ratings <- as.matrix(ratings)
+        }
+        
     ratings <- new("realRatingMatrix", data=dropNA(ratings))
     ## prediction done
     
