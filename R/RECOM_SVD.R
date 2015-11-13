@@ -65,6 +65,11 @@ REAL_SVD <- function(data, parameter= NULL) {
     colnames(ratings) <- colnames(data)
     # Only need to give back new users
     ratings <- ratings[(dim(model$data@data)[1]+1):dim(ratings)[1],]
+    if(is.null(dim(ratings))) {
+        ratings <- matrix(ratings, nrow=1)
+        rownames(ratings) <- rownames(data[(dim(model$data@data)[1]+1):(dim(model$data@data)[1]+1)])
+        colnames(ratings) <- colnames(data)
+    }
     
     ratings <- new("realRatingMatrix", data=dropNA(ratings))
     ## prediction done
