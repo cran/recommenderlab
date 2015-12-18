@@ -4,6 +4,7 @@ importFrom("graphics", "plot", "barplot", "lines", "text") ## we need the generi
 importFrom("proxy", "dist", "as.dist")
 importFrom("stats", "sd", "median", "princomp", "loadings", "runif", "cor")
 importFrom("utils", "head")
+importFrom("bcv", "impute.svd")
 
 ## get generics and methods
 importFrom("Matrix", "rowSums", "colSums", "rowMeans", "colMeans", 
@@ -38,8 +39,7 @@ exportClasses(
 
 export(
 		"dropNA",
-		"dropNA2matrix",
-		".get_parameters"
+		"dropNA2matrix"
 	    )
 
 exportMethods(

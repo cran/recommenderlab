@@ -1,7 +1,8 @@
-\name{binaryRatingMatrix-class}
+\name{binaryRatingMatrix}
 \Rdversion{1.1}
 \docType{class}
 \alias{binaryRatingMatrix-class}
+\alias{binaryRatingMatrix}
 \alias{coerce,matrix,binaryRatingMatrix-method}
 \alias{coerce,itemMatrix,binaryRatingMatrix-method}
 \alias{coerce,data.frame,binaryRatingMatrix-method}

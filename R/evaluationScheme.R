@@ -1,10 +1,13 @@
+
+## negative given implement All-but-given
+
 setMethod("evaluationScheme", signature(data = "ratingMatrix"), 
   function(data, method="split", train=0.9, k=NULL, 
     given, goodRating=NA) {
     
     goodRating <- as.numeric(goodRating)
     
-    if(given<1) stop("given needs to be >0!")
+    #if(given<1) stop("given needs to be >0!")
     
     #   if(is(data, "realRatingMatrix") && is.na(goodRating))
     #	stop("You need to set goodRating in the evaluationScheme for a realRatingMatrix!")
@@ -83,8 +86,12 @@ setMethod("getData", signature(x = "evaluationScheme"),
 setMethod("show", signature(object = "evaluationScheme"),
   function(object) {
     if(length(object@given)==1) {
-      writeLines(sprintf("Evaluation scheme with %d items given", 
-        object@given))
+      if(object@given >= 0)
+        writeLines(sprintf("Evaluation scheme with %d items given", 
+          object@given))
+      else
+        writeLines(sprintf("Evaluation scheme using all-but-%d items", 
+          abs(object@given)))
     }else{
       writeLines(c(
         "Evaluation scheme with multiple items given",

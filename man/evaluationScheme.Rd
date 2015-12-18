@@ -23,7 +23,8 @@ evaluationScheme(data, ...)
 	    for cross-validation and bootstrap and 1 for split).}
 	\item{given}{single number of items given for evaluation or
 	  a vector of length of data giving the number of items given for each
-	    observation. }
+	    observation. Negative values implement all-but schemes. For example,
+	    \code{given = -1} means all-but-1 evaluation.}
 	\item{goodRating}{numeric; threshold at which ratings are considered 
 	good for evaluation. E.g., with \code{goodRating=3} all items 
 	with actual user rating of greater or equal 3 are 
@@ -75,12 +76,14 @@ data("MSWeb")
 MSWeb10 <- sample(MSWeb[rowCounts(MSWeb) >10,], 50)
 MSWeb10 
 
+## simple split with 3 items given
 esSplit <- evaluationScheme(MSWeb10, method="split",
         train = 0.9, k=1, given=3)
 esSplit
 
+## 4-fold cross-validation with all-but-1 items for learning.
 esCross <- evaluationScheme(MSWeb10, method="cross-validation",
-        k=4, given=3)
+        k=4, given=1)
 esCross
 }
 %\keyword{ ~kwd1 }

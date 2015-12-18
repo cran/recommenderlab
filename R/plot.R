@@ -53,7 +53,7 @@ setMethod("plot", signature(x = "evaluationResultList"),
 
     a <- avg(x)
     if(!("TPR" %in% colnames(a[[1]]))) return(barplot(do.call(rbind, a), 
-      beside=TRUE, legend.text=names(a)))
+      beside=TRUE, legend.text=names(a), ylim=ylim, col=col))
           
     if(is.null(pch)) pch <- 1:length(x)
     if(type=="l") pch <- NULL

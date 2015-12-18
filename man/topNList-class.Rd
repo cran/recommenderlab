@@ -1,7 +1,8 @@
-\name{topNList-class}
+\name{topNList}
 \Rdversion{1.1}
 \docType{class}
 \alias{topNList-class}
+\alias{topNList}
 \alias{bestN}
 \alias{bestN,topNList-method}
 \alias{coerce,topNList,dgTMatrix-method}

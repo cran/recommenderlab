@@ -6,7 +6,7 @@ setMethod("evaluate", signature(x = "evaluationScheme", method = "character"),
     scheme <- x
     runs <- 1:scheme@k
     
-    if(progress) cat(method, "run ")
+    if(progress) cat(method, "run fold/sample [model time/prediction time]")
     
     cm <- list()
     for(r in runs) {
@@ -74,7 +74,7 @@ setMethod("evaluate", signature(x = "evaluationScheme", method = "list"),
       
       r <-  calcPredictionAccuracy(topN, test_unknown, byUser=FALSE, 
         given=scheme@given, goodRating=scheme@goodRating)
-      if(i==1) res <- r
+      if(i==1) res <- rbind(r)
       else res <- rbind(res, r)
     }
     rownames(res) <- n

@@ -45,7 +45,7 @@ or if \code{method} is a list an object of class \code{"evaluationResultList"}.
 \code{\linkS4class{evaluationResultList}}.
 }
 \examples{
-### evaluate top-N list recommendations on a binary data set  
+### evaluate top-N list recommendations on a 0-1 data set  
 data("MSWeb")
 MSWeb10 <- sample(MSWeb[rowCounts(MSWeb) >10,], 20)
 
@@ -64,8 +64,7 @@ plot(ev, annotate = TRUE)
 ## now run evaluate with a list
 algorithms <- list(
 		RANDOM = list(name = "RANDOM", param = NULL),
-		POPULAR = list(name = "POPULAR", param = NULL),
-		UBCF = list(name = "UBCF", param = NULL)
+		POPULAR = list(name = "POPULAR", param = NULL)
 		)
 
 evlist <- evaluate(es, algorithms, n=c(1,3,5,10))
@@ -74,32 +73,19 @@ plot(evlist, legend="topright")
 ## select the first results
 evlist[[1]]
 
-### Evaluate top-N list and then rating prediction error on real ratings 
+### Evaluate using a data set with real-valued ratings 
 data("Jester5k")
-es <- evaluationScheme(Jester5k[1:50], method="cross-validation",
+es <- evaluationScheme(Jester5k[1:25], method="cross-validation",
   k=4, given=10, goodRating=5)
 ## Note: goodRating is used to determine positive ratings  
 
-## top-N list recommendation
-ev <- evaluate(es, "RANDOM", type="topNList", n=c(1,3,5,10))
+## predict top-N recommendation lists
+ev <- evaluate(es, "RANDOM", type="topNList", n=10)
 avg(ev)
-plot(ev, annotate=TRUE)
   
 ## predict missing ratings
 ev <- evaluate(es, "RANDOM", type="ratings")
 avg(ev)
-plot(ev)
-
-  
-## compate predicted ratings for several methods
-algorithms <- list(
-    RANDOM = list(name = "RANDOM", param = NULL),
-    POPULAR = list(name = "POPULAR", param = NULL)
-)
-  
-evlist <- evaluate(es, algorithms, type="ratings")
-avg(evlist)
-plot(evlist)
 }
 %\keyword{ ~kwd1 }
 %\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -42,9 +42,12 @@ rec
 
 str(getModel(rec))
 
-## look at registry
+## look at registry and a few methods
 recommenderRegistry$get_entry_names()
+
 recommenderRegistry$get_entry("POPULAR", dataType = "binaryRatingMatrix")
+
+recommenderRegistry$get_entry("SVD", dataType = "realRatingMatrix")
 }
 %\keyword{ ~kwd1 }
 %\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

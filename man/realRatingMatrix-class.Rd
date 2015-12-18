@@ -1,7 +1,8 @@
-\name{realRatingMatrix-class}
+\name{realRatingMatrix}
 \Rdversion{1.1}
 \docType{class}
 \alias{realRatingMatrix-class}
+\alias{realRatingMatrix}
 \alias{coerce,matrix,realRatingMatrix-method}
 \alias{coerce,realRatingMatrix,matrix-method}
 \alias{coerce,realRatingMatrix,dgTMatrix-method}

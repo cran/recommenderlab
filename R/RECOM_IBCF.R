@@ -13,7 +13,7 @@ BIN_IBCF <- function(data, parameter= NULL) {
   
   ## this might not fit into memory! Maybe use a sample?
   sim <- as.matrix(similarity(data, method=p$method, which="items", 
-                              args=list(alpha=p$alpha)))
+    args=list(alpha=p$alpha)))
   
   ## reduce similarity matrix to keep only the k highest similarities
   diag(sim) <- 0
@@ -24,7 +24,7 @@ BIN_IBCF <- function(data, parameter= NULL) {
   
   for(i in 1:nrow(sim)) 
     sim[i,head(order(sim[i,], decreasing=FALSE, na.last=FALSE), 
-               ncol(sim) - p$k)] <- 0
+      ncol(sim) - p$k)] <- 0
   
   
   
@@ -40,7 +40,7 @@ BIN_IBCF <- function(data, parameter= NULL) {
   
   
   predict <- function(model, newdata, n = 10, 
-                      data=NULL, type=c("topNList", "ratings"), ...) {
+    data=NULL, type=c("topNList", "ratings"), ...) {
     
     type <- match.arg(type)
     
@@ -60,18 +60,18 @@ BIN_IBCF <- function(data, parameter= NULL) {
     #ratings <- tcrossprod(sim,u)
     ratings <- tcrossprod(sim,u) / tcrossprod(sim!=0, u!=0)
     
+    
     ## remove known ratings
     ratings[as(t(u!=0), "matrix")] <- NA
     
-    if(type=="ratings") {
-      return(as(as.matrix(ratings), "realRatingMatrix"))
-    }
+    if(type=="ratings") return(as(as.matrix(ratings), "realRatingMatrix"))
+    
     
     reclist <- apply(ratings, MARGIN=2, FUN=function(x) 
       head(order(x, decreasing=TRUE, na.last=NA), n))
     
     if(!is(reclist, "list")) reclist <- lapply(1:ncol(reclist), 
-                                               FUN=function(i) reclist[,i])
+      FUN=function(i) reclist[,i])
     
     new("topNList", items = reclist, itemLabels = colnames(newdata), n = n)
     
@@ -79,7 +79,7 @@ BIN_IBCF <- function(data, parameter= NULL) {
   
   ## construct recommender object
   new("Recommender", method = "IBCF", dataType = class(data),
-      ntrain = nrow(data), model = model, predict = predict)
+    ntrain = nrow(data), model = model, predict = predict)
   
 }
 
@@ -111,7 +111,7 @@ REAL_IBCF <- function(data, parameter= NULL) {
   
   ## this might not fit into memory! Maybe use a sample?
   sim <- as.matrix(similarity(data, method=p$method, which="items", 
-                              args=list(alpha=p$alpha, na_as_zero=p$na_as_zero)))
+    args=list(alpha=p$alpha, na_as_zero=p$na_as_zero)))
   
   ## normalize rows to 1
   if(p$normalize_sim_matrix) sim <- sim/rowSums(sim, na.rm=TRUE)
@@ -122,7 +122,7 @@ REAL_IBCF <- function(data, parameter= NULL) {
   
   for(i in 1:nrow(sim)) 
     sim[i,head(order(sim[i,], decreasing=FALSE, na.last=FALSE), 
-               ncol(sim) - p$k)] <- NA
+      ncol(sim) - p$k)] <- NA
   
   ## make sparse
   sim <- dropNA(sim)
@@ -135,7 +135,7 @@ REAL_IBCF <- function(data, parameter= NULL) {
   )
   
   predict <- function(model, newdata, n = 10, 
-                      data=NULL, type=c("topNList", "ratings"), ...) {
+    data=NULL, type=c("topNList", "ratings", "ratingMatrix"), ...) {
     
     type <- match.arg(type)
     
@@ -158,13 +158,15 @@ REAL_IBCF <- function(data, parameter= NULL) {
     ratings <- t(as(tcrossprod(sim,u) / tcrossprod(sim, u!=0), "matrix"))
     
     ratings <- new("realRatingMatrix", data=dropNA(ratings), 
-                   normalize = getNormalize(newdata))
+      normalize = getNormalize(newdata))
     ## prediction done
-    
-    ratings <- removeKnownRatings(ratings, newdata)
     
     if(!is.null(model$normalize)) 
       ratings <- denormalize(ratings)
+    
+    if(type=="ratingMatrix") return(ratings)
+    
+    ratings <- removeKnownRatings(ratings, newdata)
     
     if(type=="ratings") return(ratings)
     
@@ -174,7 +176,7 @@ REAL_IBCF <- function(data, parameter= NULL) {
   
   ## construct recommender object
   new("Recommender", method = "IBCF", dataType = class(data),
-      ntrain = nrow(data), model = model, predict = predict)
+    ntrain = nrow(data), model = model, predict = predict)
 }
 
 

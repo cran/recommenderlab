@@ -1,7 +1,8 @@
-\name{ratingMatrix-class}
+\name{ratingMatrix}
 \Rdversion{1.1}
 \docType{class}
 \alias{ratingMatrix-class}
+\alias{ratingMatrix}
 \alias{coerce,ratingMatrix,list-method}
 \alias{coerce,ratingMatrix,data.frame-method}
 \alias{[,ratingMatrix,ANY,ANY,ANY-method}

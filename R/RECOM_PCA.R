@@ -39,7 +39,7 @@ REAL_PCA <- function(data, parameter= NULL) {
   ), p)
   
   predict <- function(model, newdata, n = 10,
-                      data=NULL, type=c("topNList", "ratings"), ...) {
+                      data=NULL, type=c("topNList", "ratings", "ratingMatrix"), ...) {
     
     type <- match.arg(type)
     
@@ -64,10 +64,13 @@ REAL_PCA <- function(data, parameter= NULL) {
                    normalize = getNormalize(newdata))
     ## prediction done
     
-    ratings <- removeKnownRatings(ratings, newdata)
     
     if(!is.null(model$normalize))
       ratings <- denormalize(ratings)
+    
+    if(type=="ratingMatrix") return(ratings)
+    
+    ratings <- removeKnownRatings(ratings, newdata)
     
     if(type=="ratings") return(ratings)
     
