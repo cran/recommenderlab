@@ -1,11 +1,15 @@
 ## helper
 setClassUnion("listOrNull", c("list", "NULL"))
 
+## FIXME: we cannot do this because Matrix does not export xMatrix!
+## sparse matrix with NAs dropped
+#setClass("sparseNAMatrix", contains = "dgCMatrix")
+
 ## Recommender
 setClass("Recommender",
 	representation(
-		method	= "character", 
-		dataType= "character", 
+		method	= "character",
+		dataType= "character",
 		ntrain	= "integer",
 		model	= "list",
 		predict = "function"
@@ -18,18 +22,28 @@ setClass("ratingMatrix",
 		normalize = "listOrNull"
 	))
 
+## uses itemMatrix from arules
 setClass("binaryRatingMatrix",
 	contains="ratingMatrix",
 	representation(
 		data = "itemMatrix"
 	))
 
-setClass("realRatingMatrix",
-	contains="ratingMatrix",
-	representation(
-		data = "dgCMatrix"
-	))
+### Legacy data:
+#setClassUnion("sparseNAMatrix_legacy", c("sparseNAMatrix", "dgCMatrix"))
 
+setClass("realRatingMatrix",
+  contains="ratingMatrix",
+  representation(
+    #data = "sparseNAMatrix"
+    #data = "sparseNAMatrix_legacy"
+    data = "dgCMatrix"
+  ) #,
+  #validity = function(object) {
+  #  if(!is(object@data, "sparseNAMatrix")) warning("dgCMatrix in realRatingMatrix is deprecated (should be sparseNAMatrix). Use object@data <- as(object@data, \"sparseNAMatrix\") to fix this issue.")
+  #  TRUE
+  #}
+)
 
 
 ## Top-N list
@@ -37,6 +51,7 @@ setClass("realRatingMatrix",
 setClass("topNList",
 	representation(
 		items   = "list",
+	  ratings = "listOrNull",
 		itemLabels= "character",
 		n       = "integer"
 	)
@@ -49,7 +64,7 @@ setClass("evaluationScheme",
 		method	= "character",
 		given	= "integer",
 		k	= "integer",
-		train	= "numeric",	
+		train	= "numeric",
 		runsTrain= "list",
 		data	= "ratingMatrix",
 		knownData= "ratingMatrix",
@@ -75,5 +90,3 @@ setClass("evaluationResults",
 setClass("evaluationResultList",
 	contains="list"			## list of evaluationResults
 )
-
-

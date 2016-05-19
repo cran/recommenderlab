@@ -52,10 +52,15 @@ part was used as the test set exactly once.
 the data set.
 All objects not in the training set are used for testing.
 
-For evaluation, the scheme chooses from the test data for each user
-\code{given} items are randomly as "known" items, the remaining
-items are "unknown." The known items are used to create a prediction and
-it is evaluated how well the algorithm predicts the unknown items.
+For evaluation, Breese et al. (1998) introduced the
+four experimental protocols called Given 2, Given 5, Given 10 and All-but-1. 
+For the Given x protocols, for each user the ratings for x randomly chosen 
+items are given to the recommender algorithm to learn the model while 
+the remaining items are withheld for evaluation. For All-but-x, 
+the algorithm is trained with all but
+x withheld ratings. \code{given} controls x in the evaluations scheme.
+Positive integers result in a Given x protocol, while negative values
+produce a All-but-x protocol.
 }
 \value{
 Returns an object of class \code{"evaluationScheme"}.
@@ -64,6 +69,10 @@ Returns an object of class \code{"evaluationScheme"}.
 Kohavi, Ron (1995). "A study of cross-validation and bootstrap for accuracy
 estimation and model selection". Proceedings of  the Fourteenth International
 Joint Conference on Artificial Intelligence, pp. 1137-1143.
+
+Breese JS, Heckerman D, Kadie C (1998). "Empirical Analysis of Predictive 
+Algorithms for Collaborative Filtering." In Uncertainty in Artificial 
+Intelligence. Proceedings of the Fourteenth Conference, pp. 43-52.
 }
 \seealso{
 \code{\link{getData}},
