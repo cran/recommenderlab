@@ -39,18 +39,17 @@ recommenderRegistry$set_entry(
   description="Recommender based on item popularity (binary data)."
 )
 
-
+.REAL_POPULAR_params <- list(
+    normalize="center",
+    aggregationRatings=colMeans,
+    aggregationPopularity=colSums
+)
 
 
 ## always recommends the top-N popular items (without known items)
 REAL_POPULAR <- function(data, parameter = NULL) {
 
-  p <- .get_parameters(list(
-    normalize="center",
-    aggregationRatings=colMeans,
-    aggregationPopularity=colSums,
-    minRating = NA
-  ), parameter)
+  p <- getParameters(.REAL_POPULAR_params, parameter)
 
   data <- normalize(data, method=p$normalize)
 
@@ -63,15 +62,9 @@ REAL_POPULAR <- function(data, parameter = NULL) {
     itemLabels = colnames(data),
     n= ncol(data))
 
-  if(!is.na(p$minRating)) {
-    warning("minRating not implemented!")
-    ### FIXME: remove bad ratings...
-  }
-
   model <- c(list(
     topN = topN,
-    ratings = ratings,
-    minRating = p$minRating
+    ratings = ratings
   ), p)
 
   predict <- function(model, newdata, n=10,
@@ -85,11 +78,15 @@ REAL_POPULAR <- function(data, parameter = NULL) {
       newdata <- data[newdata,]
     }
 
+    if(ncol(newdata) != ncol(model$ratings)) stop("number of items in newdata does not match model.")
+
     ### create denormalized data for each new user
     newdata <- normalize(newdata, method = model$normalize)
     ratings <- model$ratings[rep(1L, nrow(newdata)),]
     ratings@normalize <- getNormalize(newdata)
     ratings <- denormalize(ratings, getNormalize(newdata))
+
+    rownames(ratings) <- rownames(newdata)
 
     ### this is because we use populary and not average rating here!
     if(type=="topNList") {
@@ -119,4 +116,5 @@ REAL_POPULAR <- function(data, parameter = NULL) {
 ## register recommender
 recommenderRegistry$set_entry(
   method="POPULAR", dataType = "realRatingMatrix", fun=REAL_POPULAR,
-  description="Recommender based on item popularity (real data).")
+  description="Recommender based on item popularity (real data).",
+  parameters=.REAL_POPULAR_params)

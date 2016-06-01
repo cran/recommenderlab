@@ -4,13 +4,12 @@
 .REAL_SVD_param <- list(
   k = 10,                     ## rank of approximation
   maxiter    = 100,           ## max. number of SVD iterations
-  normalize  = "center",      ## rows
-  minRating  = NA
+  normalize  = "center"      ## rows
 )
 
 REAL_SVD <- function(data, parameter= NULL) {
 
-  p <- .get_parameters(.REAL_SVD_param, parameter)
+  p <- getParameters(.REAL_SVD_param, parameter)
 
   ### row normalization?
   if(!is.null(p$normalize) && is(data, "realRatingMatrix"))
@@ -51,6 +50,7 @@ REAL_SVD <- function(data, parameter= NULL) {
     if(!is.null(model$normalize) && is(newdata, "realRatingMatrix"))
       newdata <- normalize(newdata, method=model$normalize)
 
+    if(ncol(newdata) != nrow(model$svd$v)) stop("number of items in newdata does not match model.")
 
     ### reconstruct full rating matrix R = U Sigma V^T
     #r <- svd$u %*% tcrossprod(diag(svd$d), svd$v)

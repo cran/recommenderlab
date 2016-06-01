@@ -64,33 +64,31 @@ dropNA2matrix <- function(x) {
 
   x <- as(x, "dgCMatrix")
 
+  ## remember true NAs
+  nas <- Matrix::which(is.na(x), arr.ind=TRUE)
+
   x@x[x@x==0] <- NA
   zeros <- Matrix::which(is.na(x), arr.ind=TRUE)
   x <- as(x, "matrix")
   x[x==0] <- NA
   x[zeros] <- 0
+  x[nas] <- NA
   x
 }
 
 dropNA <- function(x) {
-  if(!is(x, "dsparseMatrix")
-    && !is(x, "matrix"))
-    stop("x needs to be a subclass of dsparseMatrix or matrix!")
 
-  if(is(x, "matrix")) zeros <- which(x==0, arr.ind=TRUE)
-  else {
-    if(!is(x, "dgCMatrix")) x <- as(x, "dgCMatrix")
+  if(is(x, "matrix")) {
+    zeros <- which(x==0, arr.ind=TRUE)
+    ## keep zeros
+    x[is.na(x)] <- 0
+    x[zeros] <- NA
+    x <- drop0(x)
+    x[zeros] <- 0
 
-    nas <- which(is.na(x@x))
-    x@x[x@x==0] <- NA
-    x@x[nas] <- 0
-    zeros <- Matrix::which(is.na(x), arr.ind=TRUE)
+    return(x)
   }
-  x[is.na(x)] <- 0
-  x[zeros] <- NA
-  x <- drop0(x)
-  x[zeros] <- 0
 
-  #new("sparseNAMatrix", x)
-  x
+  stop("x needs to be a matrix!")
 }
+

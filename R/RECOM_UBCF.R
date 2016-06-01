@@ -13,7 +13,7 @@
 
 BIN_UBCF <- function(data, parameter = NULL){
 
-  p <- .get_parameters(.BIN_UBCF_param, parameter)
+  p <- getParameters(.BIN_UBCF_param, parameter)
 
   if(p$sample) data <- sample(data, p$sample)
 
@@ -23,7 +23,10 @@ BIN_UBCF <- function(data, parameter = NULL){
   ), p )
 
   predict <- function(model, newdata, n=10, data=NULL,
-    type=c("topNList"), ...) {
+    type=c("topNList", "ratings", "ratingMatrix"), ...) {
+
+    type <- match.arg(type)
+
 
     ## newdata are userid
     if(is.numeric(newdata)) {
@@ -32,6 +35,7 @@ BIN_UBCF <- function(data, parameter = NULL){
       newdata <- data[newdata,]
     }
 
+    if(ncol(newdata) != ncol(model$data)) stop("number of items in newdata does not match model.")
 
     ## prediction
     ## FIXME: add Weiss dissimilarity
@@ -67,8 +71,7 @@ BIN_UBCF <- function(data, parameter = NULL){
     ratings <- new("realRatingMatrix", data=dropNA(ratings))
     ## prediction done
 
-    ratings <- removeKnownRatings(ratings, newdata)
-    getTopNLists(ratings, n=n)
+    returnRatings(ratings, newdata, type, n)
   }
 
   ## construct recommender object
@@ -81,14 +84,13 @@ BIN_UBCF <- function(data, parameter = NULL){
   nn = 25,
   sample = FALSE,
   ## FIXME: implement weighted = TRUE,
-  normalize="center",
-  minRating = NA
+  normalize="center"
 )
 
 
 REAL_UBCF <- function(data, parameter = NULL){
 
-  p <- .get_parameters(.REAL_UBCF_param, parameter)
+  p <- getParameters(.REAL_UBCF_param, parameter)
 
   if(p$sample) data <- sample(data, p$sample)
 

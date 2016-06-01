@@ -9,7 +9,7 @@
 
 BIN_IBCF <- function(data, parameter= NULL) {
 
-  p <- .get_parameters(.BIN_IBCF_params, parameter)
+  p <- getParameters(.BIN_IBCF_params, parameter)
 
   ## this might not fit into memory! Maybe use a sample?
   sim <- as.matrix(similarity(data, method=p$method, which="items",
@@ -46,6 +46,8 @@ BIN_IBCF <- function(data, parameter= NULL) {
         stop("If newdata is a user id then data needes to be the training dataset.")
       newdata <- data[newdata,]
     }
+
+    if(ncol(newdata) != nrow(model$sim)) stop("number of items in newdata does not match model.")
 
     n <- as.integer(n)
     sim <- model$sim
@@ -87,14 +89,13 @@ recommenderRegistry$set_entry(
   normalize = "center",
   normalize_sim_matrix = FALSE,
   alpha = 0.5,
-  na_as_zero = FALSE,
-  minRating = NA
+  na_as_zero = FALSE
 )
 
 
 REAL_IBCF <- function(data, parameter= NULL) {
 
-  p <- .get_parameters(.REAL_IBCF_params, parameter)
+  p <- getParameters(.REAL_IBCF_params, parameter)
 
   if(!is.null(p$normalize))
     data <- normalize(data, method=p$normalize)
@@ -135,6 +136,8 @@ REAL_IBCF <- function(data, parameter= NULL) {
         stop("If newdata is a user id then data needes to be the training dataset.")
       newdata <- data[newdata,]
     }
+
+    if(ncol(newdata) != nrow(model$sim)) stop("number of items in newdata does not match model.")
 
     n <- as.integer(n)
 

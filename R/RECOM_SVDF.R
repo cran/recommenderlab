@@ -9,13 +9,12 @@
   max_epochs = 200,
   min_improvement = 1e-6,
   normalize  = "center",
-  minRating  = NA,
   verbose = FALSE
 )
 
 REAL_SVDF <- function(data, parameter= NULL) {
 
-  p <- .get_parameters(.REAL_SVDF_param, parameter)
+  p <- getParameters(.REAL_SVDF_param, parameter)
 
   ### row normalization?
   if(!is.null(p$normalize) && is(data, "realRatingMatrix"))
@@ -43,6 +42,8 @@ REAL_SVDF <- function(data, parameter= NULL) {
         stop("If newdata is a user id then you need to specify data.")
       newdata <- data[newdata, , drop=FALSE]
     }
+
+    if(ncol(newdata) != nrow(model$svd$V)) stop("number of items in newdata does not match model.")
 
     if(!is.null(model$normalize) && is(newdata, "realRatingMatrix"))
       newdata <- normalize(newdata, method=model$normalize)
