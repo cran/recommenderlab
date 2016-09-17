@@ -1,9 +1,10 @@
 Package: recommenderlab
-Version: 0.2-0
-Date: 2016-05-31
+Version: 0.2-1
+Date: 2016-09-15
 Title: Lab for Developing and Testing Recommender Algorithms
 Authors@R: c(person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
-                email = "mhahsler@lyle.smu.edu"))
+                email = "mhahsler@lyle.smu.edu"),
+             person("Bregt", "Vereet", role = c("ctb", "cph")))
 Description: Provides a research infrastructure to test and develop
     recommender algorithms including UBCF, IBCF, FunkSVD and association
     rule-based algorithms.
@@ -16,8 +17,9 @@ URL: http://lyle.smu.edu/IDA/recommenderlab/
 License: GPL-2
 Copyright: (C) Michael Hahsler
 NeedsCompilation: no
-Packaged: 2016-06-01 12:57:20 UTC; hahsler
-Author: Michael Hahsler [aut, cre, cph]
+Packaged: 2016-09-16 04:27:24 UTC; hahsler
+Author: Michael Hahsler [aut, cre, cph],
+  Bregt Vereet [ctb, cph]
 Maintainer: Michael Hahsler <mhahsler@lyle.smu.edu>
 Repository: CRAN
-Date/Publication: 2016-06-01 16:00:06
+Date/Publication: 2016-09-17 00:53:02
