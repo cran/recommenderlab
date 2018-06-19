@@ -38,12 +38,11 @@ install.packages("recommenderlab")
 ```
 __Current development version:__ Download package from [AppVeyor](https://ci.appveyor.com/project/mhahsler/recommenderlab/build/artifacts) or install from GitHub (needs devtools).
 ```R 
-install_git("mhahsler/recommenderlab")
+library("devtools")
+install_github("mhahsler/recommenderlab")
 ```
 
 ## Usage
-
-A Shiny App running recommenderlab can be found at  [https://mhahsler-apps.shinyapps.io/Jester/](https://mhahsler-apps.shinyapps.io/Jester/). 
 
 Load the package and prepare a dataset (included in the package).
 ```R
@@ -101,9 +100,13 @@ $`292`
  [9] "Babe (1995)"                "GoodFellas (1990)"   
 ```
 
+A simple Shiny App running recommenderlab can be found at  [https://mhahsler-apps.shinyapps.io/Jester/](https://mhahsler-apps.shinyapps.io/Jester/) 
+([source code](https://github.com/mhahsler/recommenderlab/tree/master/Work/apps)). 
+
+
 ## References
 
 * Michael Hahsler (2016). [recommenderlab: A Framework for Developing and
 Testing Recommendation Algorithms](https://CRAN.R-project.org/package=recommenderlab/vignettes/recommenderlab.pdf), R package. https://CRAN.R-project.org/package=recommenderlab
 * recommenderlab [reference manual](https://CRAN.R-project.org/package=recommenderlab/recommenderlab.pdf)
-* An example Shiny App is available at  [https://mhahsler-apps.shinyapps.io/Jester/](https://mhahsler-apps.shinyapps.io/Jester/). 
+*  Suresh K. Gorakala and Michele Usuelli (2015) [Building a Recommendation System with R](https://www.amazon.com/Building-Recommendation-System-Suresh-Gorakala/dp/1783554495) features the package recommenderlab.

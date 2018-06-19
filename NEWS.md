@@ -1,3 +1,12 @@
+# Changes in version 0.2-3 (06/19/2018)
+
+## Bugfixes
+* Fixed bug in ALS_implicit (reported by equalise).
+* getData for binaryRatingMatrix data with type "known" and "unknown" 
+    preserves now user ids/rownames (reported by Kasia Kulma).
+* predict for HybridRecommender now retains user IDs (reported by homodigitus).
+* Removed warning about using drop in subsetting ratingMatrices (reported by donnydongchen).
+
 # Changes in version 0.2-2 (04/05/2017)
 
 ## Bugfixes

@@ -1,6 +1,6 @@
 Package: recommenderlab
-Version: 0.2-2
-Date: 2017-04-05
+Version: 0.2-3
+Date: 2018-06-19
 Title: Lab for Developing and Testing Recommender Algorithms
 Authors@R: c(person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
                 email = "mhahsler@lyle.smu.edu"),
@@ -17,9 +17,9 @@ URL: http://lyle.smu.edu/IDA/recommenderlab/
 License: GPL-2
 Copyright: (C) Michael Hahsler
 NeedsCompilation: no
-Packaged: 2017-04-05 17:16:11 UTC; hahsler
+Packaged: 2018-06-19 20:32:58 UTC; hahsler
 Author: Michael Hahsler [aut, cre, cph],
   Bregt Vereet [ctb, cph]
 Maintainer: Michael Hahsler <mhahsler@lyle.smu.edu>
 Repository: CRAN
-Date/Publication: 2017-04-05 22:05:06 UTC
+Date/Publication: 2018-06-19 22:07:54 UTC
