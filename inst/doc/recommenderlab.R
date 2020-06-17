@@ -1,5 +1,4 @@
 ### R code from vignette source 'recommenderlab.Rnw'
-### Encoding: UTF-8
 
 ###################################################
 ### code chunk number 1: recommenderlab.Rnw:101-104
@@ -16,13 +15,13 @@ citation("recommenderlab")
 
 
 ###################################################
-### code chunk number 3: recommenderlab.Rnw:1076-1077
+### code chunk number 3: recommenderlab.Rnw:1077-1078
 ###################################################
 library("recommenderlab")
 
 
 ###################################################
-### code chunk number 4: recommenderlab.Rnw:1085-1090
+### code chunk number 4: recommenderlab.Rnw:1086-1091
 ###################################################
 m <- matrix(sample(c(as.numeric(0:5), NA), 50,
     replace=TRUE, prob=c(rep(.4/6,6),.6)), ncol=10,
@@ -32,7 +31,7 @@ m
 
 
 ###################################################
-### code chunk number 5: recommenderlab.Rnw:1098-1101
+### code chunk number 5: recommenderlab.Rnw:1099-1102
 ###################################################
 r <- as(m, "realRatingMatrix")
 r
@@ -40,20 +39,20 @@ getRatingMatrix(r)
 
 
 ###################################################
-### code chunk number 6: recommenderlab.Rnw:1106-1107
+### code chunk number 6: recommenderlab.Rnw:1107-1108
 ###################################################
 identical(as(r, "matrix"),m)
 
 
 ###################################################
-### code chunk number 7: recommenderlab.Rnw:1114-1116
+### code chunk number 7: recommenderlab.Rnw:1115-1117
 ###################################################
 as(r, "list")
 head(as(r, "data.frame"))
 
 
 ###################################################
-### code chunk number 8: recommenderlab.Rnw:1131-1134
+### code chunk number 8: recommenderlab.Rnw:1132-1135
 ###################################################
 r_m <- normalize(r)
 r_m
@@ -61,13 +60,13 @@ getRatingMatrix(r_m)
 
 
 ###################################################
-### code chunk number 9: recommenderlab.Rnw:1138-1139
+### code chunk number 9: recommenderlab.Rnw:1139-1140
 ###################################################
 denormalize(r_m)
 
 
 ###################################################
-### code chunk number 10: recommenderlab.Rnw:1145-1147 (eval = FALSE)
+### code chunk number 10: recommenderlab.Rnw:1146-1148 (eval = FALSE)
 ###################################################
 ## image(r, main = "Raw Ratings")
 ## image(r_m, main = "Normalized Ratings")
@@ -86,7 +85,7 @@ print(image(r_m, main = "Normalized Ratings"))
 
 
 ###################################################
-### code chunk number 13: recommenderlab.Rnw:1180-1183
+### code chunk number 13: recommenderlab.Rnw:1181-1184
 ###################################################
 r_b <- binarize(r, minRating=4)
 r_b
@@ -94,14 +93,14 @@ as(r_b, "matrix")
 
 
 ###################################################
-### code chunk number 14: recommenderlab.Rnw:1195-1197
+### code chunk number 14: recommenderlab.Rnw:1196-1198
 ###################################################
 data(Jester5k)
 Jester5k
 
 
 ###################################################
-### code chunk number 15: recommenderlab.Rnw:1206-1209
+### code chunk number 15: recommenderlab.Rnw:1207-1210
 ###################################################
 set.seed(1234)
 r <- sample(Jester5k, 1000)
@@ -109,7 +108,7 @@ r
 
 
 ###################################################
-### code chunk number 16: recommenderlab.Rnw:1216-1219
+### code chunk number 16: recommenderlab.Rnw:1217-1220
 ###################################################
 rowCounts(r[1,])
 as(r[1,], "list")
@@ -147,40 +146,40 @@ hist(colMeans(r), breaks=20)
 
 
 ###################################################
-### code chunk number 22: recommenderlab.Rnw:1308-1309
+### code chunk number 22: recommenderlab.Rnw:1309-1310
 ###################################################
 recommenderRegistry$get_entries(dataType = "realRatingMatrix")
 
 
 ###################################################
-### code chunk number 23: recommenderlab.Rnw:1317-1319
+### code chunk number 23: recommenderlab.Rnw:1318-1320
 ###################################################
 r <- Recommender(Jester5k[1:1000], method = "POPULAR")
 r
 
 
 ###################################################
-### code chunk number 24: recommenderlab.Rnw:1323-1325
+### code chunk number 24: recommenderlab.Rnw:1324-1326
 ###################################################
 names(getModel(r))
 getModel(r)$topN
 
 
 ###################################################
-### code chunk number 25: recommenderlab.Rnw:1340-1342
+### code chunk number 25: recommenderlab.Rnw:1341-1343
 ###################################################
 recom <- predict(r, Jester5k[1001:1002], n=5)
 recom
 
 
 ###################################################
-### code chunk number 26: recommenderlab.Rnw:1347-1348
+### code chunk number 26: recommenderlab.Rnw:1348-1349
 ###################################################
 as(recom, "list")
 
 
 ###################################################
-### code chunk number 27: recommenderlab.Rnw:1354-1357
+### code chunk number 27: recommenderlab.Rnw:1355-1358
 ###################################################
 recom3 <- bestN(recom, n = 3)
 recom3
@@ -188,7 +187,7 @@ as(recom3, "list")
 
 
 ###################################################
-### code chunk number 28: recommenderlab.Rnw:1365-1368
+### code chunk number 28: recommenderlab.Rnw:1366-1369
 ###################################################
 recom <- predict(r, Jester5k[1001:1002], type="ratings")
 recom
@@ -196,7 +195,7 @@ as(recom, "matrix")[,1:10]
 
 
 ###################################################
-### code chunk number 29: recommenderlab.Rnw:1379-1382
+### code chunk number 29: recommenderlab.Rnw:1380-1383
 ###################################################
 recom <- predict(r, Jester5k[1001:1002], type="ratingMatrix")
 recom
@@ -204,7 +203,7 @@ as(recom, "matrix")[,1:10]
 
 
 ###################################################
-### code chunk number 30: recommenderlab.Rnw:1397-1400
+### code chunk number 30: recommenderlab.Rnw:1398-1401
 ###################################################
 e <- evaluationScheme(Jester5k[1:1000], method="split", train=0.9,
     given=15, goodRating=5)
@@ -212,7 +211,7 @@ e
 
 
 ###################################################
-### code chunk number 31: recommenderlab.Rnw:1406-1411
+### code chunk number 31: recommenderlab.Rnw:1407-1412
 ###################################################
 r1 <- Recommender(getData(e, "train"), "UBCF")
 r1
@@ -222,7 +221,7 @@ r2
 
 
 ###################################################
-### code chunk number 32: recommenderlab.Rnw:1418-1422
+### code chunk number 32: recommenderlab.Rnw:1419-1423
 ###################################################
 p1 <- predict(r1, getData(e, "known"), type="ratings")
 p1
@@ -231,7 +230,7 @@ p2
 
 
 ###################################################
-### code chunk number 33: recommenderlab.Rnw:1428-1433
+### code chunk number 33: recommenderlab.Rnw:1429-1434
 ###################################################
 error <- rbind(
   UBCF = calcPredictionAccuracy(p1, getData(e, "unknown")),
@@ -241,7 +240,7 @@ error
 
 
 ###################################################
-### code chunk number 34: recommenderlab.Rnw:1446-1449
+### code chunk number 34: recommenderlab.Rnw:1447-1450
 ###################################################
 scheme <- evaluationScheme(Jester5k[1:1000], method="cross", k=4, given=3,
     goodRating=5)
@@ -249,7 +248,7 @@ scheme
 
 
 ###################################################
-### code chunk number 35: recommenderlab.Rnw:1456-1459
+### code chunk number 35: recommenderlab.Rnw:1457-1460
 ###################################################
 results <- evaluate(scheme, method="POPULAR", type = "topNList",
   n=c(1,3,5,10,15,20))
@@ -257,13 +256,13 @@ results
 
 
 ###################################################
-### code chunk number 36: recommenderlab.Rnw:1470-1471
+### code chunk number 36: recommenderlab.Rnw:1471-1472
 ###################################################
 getConfusionMatrix(results)[[1]]
 
 
 ###################################################
-### code chunk number 37: recommenderlab.Rnw:1483-1484
+### code chunk number 37: recommenderlab.Rnw:1484-1485
 ###################################################
 avg(results)
 
@@ -281,7 +280,7 @@ plot(results, "prec/rec", annotate=TRUE)
 
 
 ###################################################
-### code chunk number 40: recommenderlab.Rnw:1531-1547
+### code chunk number 40: recommenderlab.Rnw:1532-1548
 ###################################################
 set.seed(2016)
 scheme <- evaluationScheme(Jester5k[1:1000], method="split", train = .9,
@@ -302,13 +301,13 @@ results <- evaluate(scheme, algorithms, type = "topNList",
 
 
 ###################################################
-### code chunk number 41: recommenderlab.Rnw:1552-1553
+### code chunk number 41: recommenderlab.Rnw:1553-1554
 ###################################################
 results
 
 
 ###################################################
-### code chunk number 42: recommenderlab.Rnw:1559-1561
+### code chunk number 42: recommenderlab.Rnw:1560-1562
 ###################################################
 names(results)
 results[["user-based CF"]]
@@ -327,14 +326,14 @@ plot(results, "prec/rec", annotate=3, legend="topleft")
 
 
 ###################################################
-### code chunk number 45: recommenderlab.Rnw:1604-1606
+### code chunk number 45: recommenderlab.Rnw:1605-1607
 ###################################################
 ## run algorithms
 results <- evaluate(scheme, algorithms, type = "ratings")
 
 
 ###################################################
-### code chunk number 46: recommenderlab.Rnw:1611-1612
+### code chunk number 46: recommenderlab.Rnw:1612-1613
 ###################################################
 results
 
@@ -346,7 +345,7 @@ plot(results, ylim = c(0,100))
 
 
 ###################################################
-### code chunk number 48: recommenderlab.Rnw:1634-1640
+### code chunk number 48: recommenderlab.Rnw:1635-1641
 ###################################################
 Jester_binary <- binarize(Jester5k, minRating=5)
 Jester_binary <- Jester_binary[rowCounts(Jester_binary)>20]
@@ -357,7 +356,7 @@ scheme_binary
 
 
 ###################################################
-### code chunk number 49: recommenderlab.Rnw:1643-1645
+### code chunk number 49: recommenderlab.Rnw:1644-1646
 ###################################################
 results_binary <- evaluate(scheme_binary, algorithms,
   type = "topNList", n=c(1,3,5,10,15,20))

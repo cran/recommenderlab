@@ -83,7 +83,7 @@ Class \code{"\linkS4class{ratingMatrix}"}, directly.
 	\code{\link{getList}} and \code{\link{getData.frame}}.
 	Also see \code{\link[Matrix:dgCMatrix-class]{dgCMatrix}},
 	\code{\link[Matrix:dgTMatrix-class]{dgTMatrix}} and
-	\code{\link[Matrix:ngCMatrix-class]{ngCMatrix}}
+	\code{\link[Matrix:nsparseMatrix-classes]{ngCMatrix}}
 	in \pkg{Matrix}.
 }
 \examples{
@@ -104,7 +104,8 @@ dimnames(r)
 rowCounts(r) ## number of ratings per user
 colCounts(r) ## number of ratings per item
 colMeans(r) ## average item rating
-
+nratings(r) ## total number of ratings
+hasRating(r) ## user-item combinations with ratings
 
 ## histogram of ratings
 hist(getRatings(r), breaks="FD")

@@ -1,4 +1,17 @@
-# Changes in version 0.2-4 (08/27/2019)
+# Changes in version 0.2-6 (06/16/2020)
+
+## New Features
+* ratingMatrix gained method hasRatings.
+* Recommender gained method "HYBRID" to create hybrid recommenders. Now hybrid recommenders can also be used in evaluate().
+* similarity gained parameters min_matching and min_predictive.
+
+## Bugfixes
+* predict for Recommender RANDOM now uses the correct user ids in the prediction (reported by aliko-str). 
+* fixed weight bug in Recommender UBCF (reported by aliko-str). 
+* Recommender UBCF now removes self-matches if item ids are specified in newdata. Specifying data in predict is no longer necessary. (reported by aliko-str). 
+* HybridRecommender now handles NAs in predictions correctly (was handled as 0).
+
+# Changes in version 0.2-5 (08/27/2019)
 
 ## Changes
 * predict with type "ratingMatrix" now returns predictions for the known ratings instead of replacing them with the known values.
@@ -6,7 +19,7 @@
 * Added a LIBMF-based recommender.
 
 ## Bugfixes
-* evaluationScheme with negative numbers for given (all-but-x scheme) now works even if there are not given items left (reported by philippschmalen).
+* evaluationScheme with negative numbers for given (all-but-x scheme) now works even if there are no given items left (reported by philippschmalen).
 
 # Changes in version 0.2-4 (03/23/2019)
 
