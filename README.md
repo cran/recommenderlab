@@ -1,8 +1,8 @@
 # recommenderlab - Lab for Developing and Testing Recommender Algorithms - R package
 
-[![CRAN version](http://www.r-pkg.org/badges/version/recommenderlab)](https://cran.r-project.org/package=recommenderlab)
-[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/recommenderlab)](https://cran.r-project.org/package=recommenderlab)
-[![Travis-CI Build Status](https://travis-ci.org/mhahsler/recommenderlab.svg?branch=master)](https://travis-ci.org/mhahsler/recommenderlab)
+[![CRAN version](https://www.r-pkg.org/badges/version/recommenderlab)](https://cran.r-project.org/package=recommenderlab)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/recommenderlab)](https://cran.r-project.org/package=recommenderlab)
+  [![R-CMD-check](https://github.com/mhahsler/recommenderlab/workflows/R-CMD-check/badge.svg)](https://github.com/mhahsler/recommenderlab/actions)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mhahsler/recommenderlab?branch=master&svg=true)](https://ci.appveyor.com/project/mhahsler/recommenderlab)
 
 This R package provides an infrastructure to test and develop
@@ -40,8 +40,7 @@ install.packages("recommenderlab")
 ```
 __Current development version:__ Download package from [AppVeyor](https://ci.appveyor.com/project/mhahsler/recommenderlab/build/artifacts) or install from GitHub (needs devtools).
 ```R 
-library("devtools")
-install_github("mhahsler/recommenderlab")
+devtools::install_github("mhahsler/recommenderlab")
 ```
 
 ## Usage

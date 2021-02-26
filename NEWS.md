@@ -1,3 +1,19 @@
+# Changes in version 0.2-7 (04/26/2021)
+
+## New Features
+* The MovieLense data set includes now also user meta information.
+
+## Changes
+* getConfusionMatrix() is deprecated. Use getResults() instead.
+* added an example for how to evaluate hybrid recommenders.
+* calcPredicition now also reports N.
+* calcPredicition now stores the list length for multiple top-N lists as a column called n in the result (instead of using rownames). 
+
+## Bugfixes
+* UBCF for binary data: Fixed normalization for option weighted (reported by bhawwash).
+* Fixed problems with less than k neighbors (reported by weiy6).
+* Fixed incorrect description of comparisons in vignette.
+
 # Changes in version 0.2-6 (06/16/2020)
 
 ## New Features

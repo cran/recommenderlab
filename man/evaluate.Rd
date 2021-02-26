@@ -7,7 +7,7 @@
 Evaluate a Recommender Models
 }
 \description{
-Evaluates a single or a list of recommender model given an evaluation scheme.
+Evaluates a single or a list of recommender model given an evaluation scheme and return evaluation metrics.
 }
 \usage{
 evaluate(x, method, ...)
@@ -28,18 +28,28 @@ evaluate(x, method, ...)
   \code{"parameters"} containing the parameters used for this recommender method.
   See \code{Recommender} for available methods.}
   \item{type}{evaluate "topNList" or "ratings"?}
-  \item{n}{N (number of recommendations) of the top-N lists generated (only if type="topNList").}
+  \item{n}{a vector of the different values for N used to generate top-N lists (only if type="topNList").}
   \item{parameter}{a list with parameters for the recommender algorithm (only
     used when \code{method} is a single method).}
   \item{progress}{logical; report progress?}
   \item{keepModel}{logical; store used recommender models?}
   \item{\dots}{further arguments. }
 }
+\details{
+The evaluation uses the specification in the evaluation scheme to train a recommender models on training data and then evaluates the models on test data.
+The result is a set of accuracy measures averaged over the test users.
+See \code{\link{calcPredictionAccuracy}} for details on the accuracy measures and the averaging.
+Note: Also the confusion matrix counts are averaged over users and therefore not whole numbers.
+
+See \code{vignette("recommenderlab")} for more details on the evaluaiton process and the used metrics.
+}
 \value{
-Returns an object of class \code{"evaluationResults"}
-or if \code{method} is a list an object of class \code{"evaluationResultList"}.
+If a single recommender method is specified in  \code{method}, then an
+object of class \code{"evaluationResults"} is returned.
+If \code{method} is a list of recommendation models, then an object of class \code{"evaluationResultList"} is returned.
 }
 \seealso{
+\code{\link{calcPredictionAccuracy}},
 \code{\linkS4class{evaluationScheme}},
 \code{\linkS4class{evaluationResults}}.
 \code{\linkS4class{evaluationResultList}}.
@@ -58,38 +68,52 @@ es <- evaluationScheme(MSWeb10, method="cross-validation",
 ev <- evaluate(es, "POPULAR", n=c(1,3,5,10))
 ev
 
-## look at the results (by the length of the topNList)
+## look at the results (the length of the topNList is shown as column n)
+getResults(ev)
+
+## get a confusion matrices averaged over the 10 folds
 avg(ev)
 plot(ev, annotate = TRUE)
 
-## evaluate several algorithms with a list
+## evaluate several algorithms (including a hybrid recommender) with a list
 algorithms <- list(
-		RANDOM = list(name = "RANDOM", param = NULL),
-		POPULAR = list(name = "POPULAR", param = NULL)
-		)
+  RANDOM = list(name = "RANDOM", param = NULL),
+  POPULAR = list(name = "POPULAR", param = NULL),
+  HYBRID = list(name = "HYBRID", param =
+      list(recommenders = list(
+          RANDOM = list(name = "RANDOM", param = NULL),
+          POPULAR = list(name = "POPULAR", param = NULL)
+        )
+      )
+  )
+)
 
 evlist <- evaluate(es, algorithms, n=c(1,3,5,10))
-plot(evlist, legend="topright")
+evlist
+names(evlist)
 
-## select the first results
+## select the first results by index
 evlist[[1]]
+avg(evlist[[1]])
+
+plot(evlist, legend="topright")
 
 ### Evaluate using a data set with real-valued ratings
 ## Note: we sample only 100 users to make the example run faster
 data("Jester5k")
-es <- evaluationScheme(Jester5k[1:100], method="cross-validation",
-  k=10, given=10, goodRating=5)
+es <- evaluationScheme(Jester5k[1:100], method="split",
+  train=.9, given=10, goodRating=5)
 ## Note: goodRating is used to determine positive ratings
 
 ## predict top-N recommendation lists
 ## (results in TPR/FPR and precision/recall)
 ev <- evaluate(es, "RANDOM", type="topNList", n=10)
-avg(ev)
+getResults(ev)
 
 ## predict missing ratings
 ## (results in RMSE, MSE and MAE)
 ev <- evaluate(es, "RANDOM", type="ratings")
-avg(ev)
+getResults(ev)
 }
 %\keyword{ ~kwd1 }
 %\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
