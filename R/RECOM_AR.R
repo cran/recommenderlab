@@ -4,6 +4,7 @@
   support = 0.1,
   confidence = 0.8,
   maxlen = 3,
+  maxtime = 5,
   sort_measure = "confidence",
   sort_decreasing = TRUE,
   apriori_control = list(),
@@ -24,7 +25,7 @@ BIN_AR <- function(data, parameter = NULL) {
   rule_base <-  suppressWarnings(
     apriori(data,
     parameter=list(support=p$support, confidence=p$confidence,
-      minlen=2, maxlen=p$maxlen), control=p$apriori_control)
+      minlen=2, maxlen=p$maxlen, maxtime=p$maxtime), control=p$apriori_control)
     )
 
   ## additional measures for sorting the rulebase
@@ -65,23 +66,25 @@ BIN_AR <- function(data, parameter = NULL) {
 
     m <- is.subset(lhs(model$rule_base), newdata@data)
     reclist <- list()
+    ratings <- list()
     for(i in 1:nrow(newdata)) {
-      recom <- head(unique(unlist(
-        LIST(rhs(sort(model$rule_base[m[,i]], by=sort_measure)),
-          decode=FALSE))), n)
-
-      reclist[[i]] <- if(!is.null(recom)) recom else integer(0)
+      ars <- sort(model$rule_base[m[,i]], by = sort_measure)
+      ar_rhs <- unlist(LIST(rhs(ars), decode=FALSE))
+      ar_qualities <- quality(ars)[[sort_measure]]
+      ar_duplicates <- duplicated(ar_rhs)
+      recom_item <- ar_rhs[!ar_duplicates]
+      recom_qual <- ar_qualities[!ar_duplicates]
+      
+      reclist[[i]] <- if(!is.null(recom_item)) recom_item else integer(0)
+      ratings[[i]] <- if(!is.null(recom_qual)) recom_qual else integer(0)
     }
 
     names(reclist) <- rownames(newdata)
-    reclist <- new("topNList", items = reclist, itemLabels = colnames(newdata), n = n)
+    # create ratings that reflect the order of the topNlist
+    topN <- new("topNList", items = reclist, ratings = ratings,
+      itemLabels = colnames(newdata), n = ncol(newdata))
 
-
-    if(type == "ratings"  || type == "ratingMatrix")
-      return(as(as(reclist, "matrix"), "realRatingMatrix"))
-
-    ### topN list
-    return(reclist)
+    returnRatings(topN, newdata, type, n)
   }
 
   ## construct recommender object

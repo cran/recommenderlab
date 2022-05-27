@@ -20,6 +20,12 @@ setAs("topNList", "dgCMatrix",
 setAs("topNList", "ngCMatrix",
   function(from) as(as(from, "dgCMatrix"), "ngCMatrix"))
 
+setAs("topNList", "realRatingMatrix",
+  function(from) {
+    new("realRatingMatrix", data = as(from, "dgCMatrix"))
+  }
+)
+
 setAs("topNList", "matrix",
   function(from) dropNA2matrix(as(from, "dgCMatrix")))
 
@@ -28,10 +34,25 @@ setMethod("getList", signature(from = "topNList"),
     if(decode) lapply(from@items, function(y) from@itemLabels[y])
   else from@items)
 
-setMethod("getRatings", signature(x = "topNList"),
-  function(x, ...) x@ratings)
-
 setAs("topNList", "list", function(from) getList(from, decode = TRUE))
+
+setMethod("c", signature(x = "topNList"),
+  function(x, ..., recursive = FALSE){
+    args <- list(...)
+    if (recursive)
+      args <- unlist(args)
+    for (y in args) {
+      if (!is(y, "topNList"))
+        stop("can only combine objects of class topNList")
+      if (!identical(x@itemLabels, y@itemLabels))
+        stop("topNlists are not compatible (item labels do not match).")
+      x@items <- c(x@items, y@items)
+      x@ratings <- c(x@ratings, y@ratings)
+    }
+    x
+  }
+)
+
 
 ## creation from realRatingMatrix
 setMethod("getTopNLists", signature(x = "realRatingMatrix"),
@@ -41,35 +62,36 @@ setMethod("getTopNLists", signature(x = "realRatingMatrix"),
     # just in case
     x <- denormalize(x)
 
-    x.l <- getList(x, decode = FALSE)
+    ### FIXME: this takes a lot of memory for a dense rating matrix
+    reclist <- getList(x, decode = FALSE)
 
     if(is.null(randomize) || is.na(randomize)) {
-      reclist <- lapply(x.l, FUN = function(l)
+      reclist <- lapply(reclist, FUN = function(l)
         head(sort(l, decreasing = TRUE), n=n))
 
-      ret <- new("topNList",
+      reclist <- new("topNList",
         items = lapply(reclist, FUN = function(l) as.integer(names(l))),
         ratings = lapply(reclist, as.vector),
         itemLabels = colnames(x), n = n)
 
       if(!is.null(minRating) && !is.na(minRating))
-        ret <- bestN(ret, n = n, minRating = minRating)
+        reclist <- bestN(reclist, n = n, minRating = minRating)
 
     }else{
     ## randomize recommendations
-      reclist <- lapply(x.l, FUN = function(l) {
+      reclist <- lapply(reclist, FUN = function(l) {
         if(!is.null(minRating) && !is.na(minRating)) l <- l[l>=minRating]
         if(length(l)>0) sample(l, size = min(n, length(l)),
           prob = (l-min(l)+1)^randomize)
         else integer(0)
       })
 
-      ret <- new("topNList",
+      reclist <- new("topNList",
         items = lapply(reclist, FUN = function(l) as.integer(names(l))),
         ratings = lapply(reclist, as.vector),
         itemLabels = colnames(x), n = n)
     }
-  ret
+  reclist
   })
 
 ## only keep best n items.

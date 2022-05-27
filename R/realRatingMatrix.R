@@ -58,21 +58,18 @@ setMethod("getList", signature(from = "realRatingMatrix"),
 
     lst <- split(trip@j+1L, factor(trip@i,
       levels=0:(nrow(trip)-1L)), drop=FALSE)
-    rts <- split(trip@x, factor(trip@i,
-      levels=0:(nrow(trip)-1L)), drop=FALSE)
 
     if(decode) lst <- lapply(lst, function(y) colnames(from)[y])
     else names(lst) <- NULL
 
-    if(ratings) {
-      for(i in 1:length(rts)) {
-        names(rts[[i]]) <- lst[[i]]
-      }
-    }else{
-      rts <- lst
+    if(!ratings) return(lst)
+
+    rts <- split(trip@x, factor(trip@i,
+      levels=0:(nrow(trip)-1L)), drop=FALSE)
+    for(i in 1:length(rts)) {
+      names(rts[[i]]) <- lst[[i]]
     }
 
-    names(rts) <- rownames(from)
     rts
   })
 
@@ -96,10 +93,7 @@ setMethod("removeKnownRatings", signature(x = "realRatingMatrix"),
     if(nrow(x) != nrow(known))
       stop("removeKnownRatings: Number of rows in x and known do not match!")
 
-    ## FIXME: make sparse
-    xm <- as(x, "matrix")
-    xm[as(as(known,"ngCMatrix"), "matrix")] <- NA
-    x@data <- dropNA(xm)
+    x@data[hasRating(known)] <- 0
     x
   })
 
@@ -186,14 +180,13 @@ setMethod(".splitKnownUnknown", signature(data="realRatingMatrix"),
 setReplaceMethod("[", signature(x = "realRatingMatrix"),
   function(x, i, j, value) {
 
+  ### protect zeros
+  value[value == 0] <- .Machine$double.xmin
+
   if(missing(i)) i <- 1:nrow(x)
   if(missing(j)) j <- 1:ncol(x)
 
-  ### protect zeros
-  x@data@x[x@data@x==0] <- NA
   x@data[i,j] <- value
-  x@data@x[is.na(x@data@x)] <- 0
-
   x
   }
 )

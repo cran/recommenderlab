@@ -1,3 +1,21 @@
+# Changes in version 1.0.0 (05/27/2022)
+
+## Bugfixes
+* calcPredictionAccuracy now works with negative values for given (all-but-x). A negative value produces an error with instructions. 
+* We require now proxy version >= 0.4-26 which fixed a conversion bug for cosine similarity.
+* RECOM_AR now respects already know items (code provided by gregreich).
+* evaluate: keepModel = TRUE now works (bug reported by gregreich). 
+* Recom_SVD: fixed issue with missing values set to zero (bug reported by jpbrooks@vcu.edu)
+
+## Changes
+* Ratings of zero are now fully supported. We use .Machine$double.xmin to represent 0 in 
+  sparse matices. zapsmall() can be used to change them back to 0.
+* topNList has now a method c() to combine multiple lists.
+* RECOM_AR: Ratings are now equal to quality measure used for ranking.
+* HYBRIDRECOMMENDER: add "max" and "min" aggregation.
+* removeKnownRatings is now sparse.
+* RECOM_RANDOM now has parameter range to specify the rating range.
+
 # Changes in version 0.2-7 (04/26/2021)
 
 ## New Features
