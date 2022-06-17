@@ -1,6 +1,5 @@
-R package recommenderlab - Lab for Developing and Testing Recommender
-Algorithms
-================
+
+# <img src='man/figures/logo.svg' align="right" height="139" /> R package recommenderlab - Lab for Developing and Testing Recommender Algorithms
 
 [![CRAN
 version](http://www.r-pkg.org/badges/version/recommenderlab)](https://CRAN.R-project.org/package=recommenderlab)
@@ -92,11 +91,11 @@ as(pre, "list")
 ```
 
     ## $`0`
-    ## [1] "M (1931)"                                                
-    ## [2] "Braindead (1992)"                                        
-    ## [3] "Charade (1963)"                                          
-    ## [4] "Nosferatu (Nosferatu, eine Symphonie des Grauens) (1922)"
-    ## [5] "Touch of Evil (1958)"                                    
+    ## [1] "M (1931)"                                 
+    ## [2] "Braindead (1992)"                         
+    ## [3] "Charade (1963)"                           
+    ## [4] "Touch of Evil (1958)"                     
+    ## [5] "Die xue shuang xiong (Killer, The) (1989)"
     ## 
     ## $`1`
     ## [1] "SubUrbia (1997)"        "Apostle, The (1997)"    "Dead Man (1995)"       

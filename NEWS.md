@@ -1,3 +1,10 @@
+# Changes in version 1.0.1 (06/17/2022)
+
+## Bugfixes
+* Fixed similarity() and dissimilarity() after changes for Cosine in package proxy 
+  (reported by Artur Gramacki).
+* dropNA now always creates a dgCMatrix.
+
 # Changes in version 1.0.0 (05/27/2022)
 
 ## Bugfixes
