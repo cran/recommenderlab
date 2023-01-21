@@ -22,8 +22,23 @@ setMethod("evaluationScheme", signature(data = "ratingMatrix"),
       stop("Length of given has to be one or length of data!")
 
     ## check size
-    if (any(rowCounts(data) < given))
-      stop("Some observations have size<given!")
+    if (given > 0)
+      not_enough_ratings <- which(rowCounts(data) < given)
+    else ### all-but-x
+      not_enough_ratings <- which(rowCounts(data) < (-given + 1))
+
+    if (length(not_enough_ratings) > 1) {
+      warning(
+        "Dropping these users from the evaluation since they have fewer rating than specified in given!\n",
+        "These users are ",
+        paste(not_enough_ratings, collapse = ", ")
+      )
+      data <- data[-not_enough_ratings]
+      n <- nrow(data)
+
+      if (length(given) != 1)
+        given <- given[-not_enough_ratings]
+    }
 
     ## methods
     methods <- c("split", "cross-validation", "bootstrap")
@@ -48,7 +63,7 @@ setMethod("evaluationScheme", signature(data = "ratingMatrix"),
 
     ## cross-validation
     else if (method_ind == 2) {
-      train <- as.numeric(NA)
+      train <- NA_real_
 
       times <- as.integer(n / k)
       fold_ids <- sample(rep(1:k, times), times * k)

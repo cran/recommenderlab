@@ -1,6 +1,6 @@
 Package: recommenderlab
-Version: 1.0.2
-Date: 2022-08-17
+Version: 1.0.3
+Date: 2023-01-20
 Title: Lab for Developing and Testing Recommender Algorithms
 Authors@R: c(person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
 	    email = "mhahsler@lyle.smu.edu",
@@ -11,18 +11,19 @@ Description: Provides a research infrastructure to develop and evaluate
     representation for user-item matrices, many popular algorithms, top-N recommendations,
     and cross-validation. Hahsler (2022) <doi:10.48550/arXiv.2205.12371>.
 Classification/ACM: G.4, H.2.8
-Depends: R (>= 3.5.0), Matrix, arules, proxy (>= 0.4-26), registry
-Imports: methods, utils, stats, irlba, recosystem, matrixStats
+Depends: R (>= 3.5.0), Matrix, arules, proxy (>= 0.4-26)
+Imports: registry, methods, utils, stats, irlba, recosystem,
+        matrixStats
 Suggests: testthat
 BugReports: https://github.com/mhahsler/recommenderlab/issues
 URL: https://github.com/mhahsler/recommenderlab
 License: GPL-2
 Copyright: (C) Michael Hahsler
 NeedsCompilation: no
-Packaged: 2022-08-17 16:02:31 UTC; hahsler
+Packaged: 2023-01-20 19:50:39 UTC; hahsler
 Author: Michael Hahsler [aut, cre, cph]
     (<https://orcid.org/0000-0003-2716-1405>),
   Bregt Vereet [ctb]
 Maintainer: Michael Hahsler <mhahsler@lyle.smu.edu>
 Repository: CRAN
-Date/Publication: 2022-08-17 19:50:02 UTC
+Date/Publication: 2023-01-21 09:20:02 UTC
