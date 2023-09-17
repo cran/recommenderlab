@@ -29,12 +29,20 @@ BIN_AR <- function(data, parameter = NULL) {
     )
 
   ## additional measures for sorting the rulebase
-  if(p$sort_measure == "cxs") quality(rule_base) <- cbind(quality(rule_base),
-    cxs = quality(rule_base)$confidence * quality(rule_base)$support)
+  if (p$sort_measure == "cxs")
+    quality(rule_base) <- cbind(quality(rule_base),
+                                cxs = quality(rule_base)$confidence * quality(rule_base)$support)
 
-  if(!p$sort_measure %in% names(quality(rule_base))) quality(rule_base) <-
-    cbind(quality(rule_base), interestMeasure(rule_base, method = p$sort_measure,
-      transactions = data))
+  if (!p$sort_measure %in% names(quality(rule_base))) {
+    quality(rule_base) <- cbind(quality(rule_base),
+                                structure(as.data.frame(
+                                  interestMeasure(
+                                    rule_base,
+                                    measure = c(p$sort_measure),
+                                    transactions = data
+                                  )
+                                ), name = p$sort_measure))
+  }
 
   ## sort rule_base
   rule_base <- sort(rule_base, by = p$sort_measure, decreasing=p$sort_decreasing)
@@ -74,7 +82,7 @@ BIN_AR <- function(data, parameter = NULL) {
       ar_duplicates <- duplicated(ar_rhs)
       recom_item <- ar_rhs[!ar_duplicates]
       recom_qual <- ar_qualities[!ar_duplicates]
-      
+
       reclist[[i]] <- if(!is.null(recom_item)) recom_item else integer(0)
       ratings[[i]] <- if(!is.null(recom_qual)) recom_qual else integer(0)
     }

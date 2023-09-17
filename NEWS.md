@@ -1,3 +1,10 @@
+# Changes in version 1.0.5 (09/16/2023)
+
+## Bugfixes
+* changed parameter name in interestMeasure().
+* fixed issue with adding a single interest measure.
+* fixed bug in row/colSums call for Matrix (reported by Mikael Jagan).
+
 # Changes in version 1.0.4 (06/20/2023)
 
 ## Bugfixes
