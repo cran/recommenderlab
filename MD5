@@ -1,6 +1,6 @@
-162a9b302b2986edfae597d9e7534613 *DESCRIPTION
+2a7eae6328c9b2320bb824cb76dc077a *DESCRIPTION
 4fdbadd6be0420623e89ade1a04fc81c *NAMESPACE
-acd802e99f798e8525014c10cdb03f8e *NEWS.md
+bc74fadbf4604936f660690d1351029a *NEWS.md
 76a8e342c3d2540fdefb5c57b47a96d0 *R/AAA.R
 9db7d29532beb7b6607588b0b54008cb *R/AAA_registry.R
 5f402eedd112c1e3eaa357bdccc12cfc *R/AAAparameter.R
@@ -31,8 +31,8 @@ b01effaeabcdda35084e55aaf7c4fcd8 *R/funkSVD.R
 c186e9545332a4bb481263c79690aa02 *R/normalize.R
 7b26b2133e6264833864fc1f695bc45a *R/plot.R
 d6dc119744be9462bd7688e8e480cc20 *R/predict.R
-4ac5c93722737dd6f70cba720808d970 *R/ratingMatrix.R
-72678d49f002f0974c70d3c2e778c303 *R/realRatingMatrix.R
+e05afc5ed8dbf1a8a80b76c34f996804 *R/ratingMatrix.R
+d797caab2453eda342971214c0939d8a *R/realRatingMatrix.R
 e1c0de7dbc4a488a9c0bc7325c1f6a49 *R/sparseNAMatrix.R
 75ce27d7a1791cc8967cf195b3b21451 *R/topNList.R
 72a1eda6be551018d0c1d2c1159ac3f4 *README.md
@@ -45,7 +45,7 @@ e500524894535b537320929616fc3828 *data/datalist
 fb0d4e50d694d2a012b7829dcbfe31f2 *inst/README_files/TNR_vs_TPR-1.png
 bba5d0990044055ec3555b154197b310 *inst/doc/recommenderlab.R
 5a2bad90759aa77defa0b83f95c2c4ef *inst/doc/recommenderlab.Rnw
-7fd1fa9d00c26f11e08e2c3d3bc0710d *inst/doc/recommenderlab.pdf
+4a7d6b1af42f0db69c6578de7d183448 *inst/doc/recommenderlab.pdf
 7f76d3e4eb57fa9c81d75930897b4fae *man/HybridRecommender.Rd
 e34602b874171d52cde04d096e64813c *man/Jester5k.Rd
 def83303e65daee8392fba5c9e401ee0 *man/MSWeb.Rd
