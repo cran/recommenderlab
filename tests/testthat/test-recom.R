@@ -4,7 +4,6 @@ library("recommenderlab")
 data("MovieLense")
 
 ### test all real rating recommenders
-context("Test real rating algorithms")
 methods <- unique(sapply(
   recommenderRegistry$get_entries(dataType = "realRatingMatrix"),
   "[[",
@@ -24,6 +23,11 @@ test3 <- MovieLense100[101:103]
 for (m in methods) {
   ### skip hybrid recommender
   if (m == "HYBRID")
+    next
+
+  if (m == "SVD" && !requireNamespace("irlba", quietly = TRUE))
+    next
+  if (m == "LIBMF" && !requireNamespace("recosystem", quietly = TRUE))
     next
 
   if (interactive())
@@ -99,7 +103,6 @@ predict(recom, test1, type = "ratings")
 predict(recom, test3, type = "ratings")
 
 ### test all binary recommenders
-context("Test binary algorithms")
 
 methods <- unique(sapply(
   recommenderRegistry$get_entries(dataType = "binaryRatingMatrix"),

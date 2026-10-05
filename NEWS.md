@@ -1,3 +1,20 @@
+# Changes in version 1.1.0 (2026-10-30)
+
+* Made `irlba` and `recosystem` optional dependencies. SVD and LIBMF now give
+  an installation hint when their required package is missing.
+* Fixed mailto in vignette.
+* Added getting-started guide.
+* Fixed spelling and grammar in package.
+* Switched to testthat edition 3 and added tests for rating matrices,
+  recommendations, prediction accuracy, and evaluation.
+
+## Bugfixes
+
+* Fixed real rating matrix evaluation splits so each user has the requested
+  number of known and withheld ratings.
+* Fixed cross-validation fold assignment when the number of users is not
+  divisible by the number of folds.
+
 # Changes in version 1.0.7 (05/29/2025)
 
 * slightly better handling of 0 vs. NA in sparse matrices.
@@ -58,7 +75,7 @@
 
 ## Changes
 * Ratings of zero are now fully supported. We use .Machine$double.xmin to represent 0 in 
-  sparse matices. zapsmall() can be used to change them back to 0.
+  sparse matrices. zapsmall() can be used to change them back to 0.
 * topNList has now a method c() to combine multiple lists.
 * RECOM_AR: Ratings are now equal to quality measure used for ranking.
 * HYBRIDRECOMMENDER: add "max" and "min" aggregation.
@@ -73,8 +90,8 @@
 ## Changes
 * getConfusionMatrix() is deprecated. Use getResults() instead.
 * added an example for how to evaluate hybrid recommenders.
-* calcPredicition now also reports N.
-* calcPredicition now stores the list length for multiple top-N lists as a column called n in the result (instead of using rownames). 
+* calcPredictionAccuracy now also reports N.
+* calcPredictionAccuracy now stores the list length for multiple top-N lists in a column called `n` (instead of using row names).
 
 ## Bugfixes
 * UBCF for binary data: Fixed normalization for option weighted (reported by bhawwash).
